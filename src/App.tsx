@@ -13,26 +13,31 @@ const menu = [
   {
     icon: <PlusCircleIcon className="w-6 text-blue-500" />,
     name: "Cadastro de Produtos",
+    path: "/item",
     itens: []
   },
   {
     icon: <ClipboardDocumentIcon className="w-6 text-blue-500" />,
     name: "Checklist",
+    path: "/item",
     itens: []
   },
   {
     icon: <FireIcon className="w-6 text-blue-500" />,
     name: "Microsoft",
+    path: "/item",
     itens: []
   },
   {
     icon: <UsersIcon className="w-6 text-blue-500" />,
     name: "Usuarios",
+    path: "/item",
     itens: []
   },
   {
     icon: <CogIcon className="w-6 text-blue-500" />,
     name: "Configurações",
+    path: "/item",
     itens: []
   }
 ];
@@ -43,7 +48,7 @@ const App = () => {
     <div className="w-full">
       <div className='flex'>
         <Navbar menuItens={menu} />
-        <main className="w-[calc(100%-250px)] p-4">
+        <main className="w-[calc(100%-280px)] p-4">
           ...
         </main>
       </div>
@@ -51,4 +56,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
