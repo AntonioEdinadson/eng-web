@@ -1,34 +1,41 @@
 import { Navbar } from './components/Navbar'
-import { TrashIcon } from '@heroicons/react/24/solid'
+
+import {
+  PlusCircleIcon,
+  CogIcon,
+  FireIcon,
+  UsersIcon,
+  ClipboardDocumentIcon
+}
+  from '@heroicons/react/24/outline'
 
 const menu = [
   {
-    icon: <TrashIcon className="w-4 text-blue-500" />,
-    name: "Menu",
+    icon: <PlusCircleIcon className="w-6 text-blue-500" />,
+    name: "Cadastro de Produtos",
     itens: []
   },
   {
-    icon: <TrashIcon className="w-4 text-blue-500" />,
-    name: "Menu",
+    icon: <ClipboardDocumentIcon className="w-6 text-blue-500" />,
+    name: "Checklist",
     itens: []
   },
   {
-    icon: <TrashIcon className="w-4 text-blue-500" />,
-    name: "Menu",
+    icon: <FireIcon className="w-6 text-blue-500" />,
+    name: "Microsoft",
     itens: []
   },
   {
-    icon: <TrashIcon className="w-4 text-blue-500" />,
-    name: "Menu",
+    icon: <UsersIcon className="w-6 text-blue-500" />,
+    name: "Usuarios",
     itens: []
   },
   {
-    icon: <TrashIcon className="w-4 text-blue-500" />,
-    name: "Menu",
+    icon: <CogIcon className="w-6 text-blue-500" />,
+    name: "Configurações",
     itens: []
   }
 ];
-
 
 const App = () => {
 
