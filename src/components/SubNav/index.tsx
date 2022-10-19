@@ -28,7 +28,8 @@ export const SubNav = ({ props }: ISubNavComponent) => {
                             {props.itens.map((child: INavbar, index) => (
                                 <li key={index} className='flex items-center hover:bg-zinc-800 hover:text-white cursor-pointer pl-9 p-1 mt-1'>
                                     <Link to={child.path}>
-                                        <div className='my-1'>
+                                        <div className='flex items-center my-1 gap-2'>
+                                            {child.icon}
                                             <span>{child.name}</span>
                                         </div>
                                     </Link>

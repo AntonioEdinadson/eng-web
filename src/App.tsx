@@ -1,5 +1,6 @@
+import { InfoUser } from './components/InfoUser';
 import { Navbar } from './components/Navbar'
-
+import { RoutesList } from './routes';
 
 const App = () => {
 
@@ -9,8 +10,9 @@ const App = () => {
         <nav className='w-[280px]'>
           <Navbar />
         </nav>
-        <main className="w-[calc(100%-280px)] p-4">
-          ...
+        <main className="w-[calc(100%-280px)]">
+          <InfoUser />
+          <RoutesList></RoutesList>
         </main>
       </div>
     </div>
