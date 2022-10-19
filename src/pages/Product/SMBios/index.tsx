@@ -1,20 +1,19 @@
-import { InfoUser } from "../../../components/InfoUser";
-import { PencilIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 
 export const SMBios = () => {
     return (
-        <div className="w-[98%] mx-auto px-[2rem] py-6 mt-4">
+        <div className="w-full mx-auto px-[1rem] py-6 mt-4">
             <div className="flex justify-between items-center">
                 <div className="text-[#bebebe]">
                     <h1 className="font-medium text-[1.5rem]">SMBios Product</h1>
                     <h2>This page is used to do all the DMI configuration part of the product.</h2>
                 </div>
-                <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-105 cursor-pointer" />
+                <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" />
             </div>
             <section className="mt-[2rem] py-3">
                 <div className="overflow-x-auto relative">
-                    <table className="w-full text-sm text-left text-[#bebebe]">
+                    <table className="min-w-[1366px] w-full text-sm text-left text-[#bebebe]">
                         <thead className="text-xs text-[#3B82F6] uppercase ">
                             <tr className="">
                                 <th className="py-3">#</th>

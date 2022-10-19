@@ -218,8 +218,8 @@ export const Navbar = () => {
     };
 
     return (
-        <aside className="w-[280px]">
-            <div className="fixed w-[280px] h-full py-[1.5rem] border-r border-zinc-800 overflow-auto">
+        <aside className="w-[250px]">
+            <div className="fixed w-[250px] h-full py-[1.5rem] border-r border-zinc-800 overflow-auto">
                 <div className="w-full pb-[1.5rem] px-[1rem]">
                     <Link to=""><img src={logo} className="w-[80%]" alt="logo" /></Link>
                 </div>
