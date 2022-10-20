@@ -10,9 +10,8 @@ const App = () => {
         <nav className='w-[280px]'>
           <Navbar />
         </nav>
-        <main className="w-[calc(100%-280px)]">
-          <InfoUser />
-          <RoutesList></RoutesList>
+        <main className="w-[calc(100%-280px)]">          
+          <RoutesList></RoutesList>          
         </main>
       </div>
     </div>
