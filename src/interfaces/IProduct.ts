@@ -1,5 +1,5 @@
 export interface ISMBios {
-    id: string;
+    id?: string;
     modelo: string;
     systemManufacture: string;
     systemProduct: string;

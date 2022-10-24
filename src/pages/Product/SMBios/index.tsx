@@ -1,29 +1,30 @@
 import {
     PencilSquareIcon,
     PlusCircleIcon,
-    TrashIcon
+    TrashIcon,
 } from "@heroicons/react/24/solid";
 import { RiSearchLine } from "react-icons/ri";
 
 import { useSmbios } from "../../../hooks/useAPI";
 import { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
 import { ISMBios } from "../../../interfaces/IProduct";
 import { InfoUser } from "../../../components/InfoUser";
 import { INotify } from "../../../interfaces/INotify";
 import { Alert } from "../../../components/Alert";
+import { ModalDelete } from "../../../components/Modal/Delete";
+import { ModalUpInsertModal } from "../../../components/Modal/UpInsert";
+
 
 export const SMBios = () => {
 
     const [smbiosData, setDataSmbios] = useState<ISMBios[] | null>(null);
-    const [smbios, setSmbios] = useState<ISMBios | null>(null);
+    const [smbios, setSmbios] = useState<ISMBios>();
+
+    const [modalDelete, setModalDelete] = useState<Boolean>();
+    const [modalUpInsert, setModalUpInsert] = useState<Boolean>();
 
     const [notify, setNotify] = useState<INotify>();
-
-    const [modalAdd, setModalAdd] = useState<Boolean>(false);
-    const [modalEdit, setModalEdit] = useState<Boolean>(false);
-    const [modalDel, setModalDel] = useState<Boolean>(false);
 
     useEffect(() => {
         getSmbios();
@@ -33,7 +34,6 @@ export const SMBios = () => {
         try {
             const response = await useSmbios.GetAllSMbios();
             setDataSmbios(response.smbios);
-            console.log(response);
         } catch (error) {
             console.log(error);
         }
@@ -48,32 +48,42 @@ export const SMBios = () => {
         }
     };
 
-    const deleteSmbios = async (id?: string) => {
+    const deleteSmbios = async () => {
         try {
 
-            if (!id) {
+            if (!smbios?.id) {
                 SendNotification({ message: 'ID not found', type: 'ERROR', status: true });
-                setModalDel(false);
+                setModalDelete(false);
                 return;
             }
 
-            const request = await useSmbios.DeleteSmbios(id);
+            const request = await useSmbios.DeleteSmbios(smbios.id);
 
             if (!request.smbios.id) {
                 SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
-                setModalDel(false);
+                setModalDelete(false);
                 return;
             }
 
             SendNotification({ message: 'SMBIOS was successfully deleted!', type: 'SUCCESS', status: true });
-            setModalDel(false);
+            setModalDelete(false);
             getSmbios();
 
         } catch (error) {
             console.log(error);
             SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
-            setModalDel(false);
+            setModalDelete(false);
         }
+    };
+
+    const onSubmit = async () => {
+
+        if (!smbios?.id) {
+            alert('create smbios');
+            return;
+        }
+
+        alert('updateSmbios');
     };
 
     const SendNotification = async (notify: INotify) => {
@@ -103,7 +113,7 @@ export const SMBios = () => {
                             className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                             placeholder="pesquisar" />
                     </div>
-                    <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" />
+                    <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" onClick={() => setModalUpInsert(!modalUpInsert)} />
                 </div>
             </div>
             <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
@@ -129,7 +139,7 @@ export const SMBios = () => {
                             <tbody className="">
                                 {smbiosData.map((smbios: ISMBios, index: number) => (
                                     <tr className="" key={index}>
-                                        <td className="py-4">{smbios.id}</td>
+                                        <td className="py-4">{smbios?.id}</td>
                                         <td className="py-4">{smbios.systemProduct}</td>
                                         <td className="py-4">{smbios.systemFamily}</td>
                                         <td className="py-4">{smbios.systemVersion}</td>
@@ -147,8 +157,8 @@ export const SMBios = () => {
                                             }
                                         </td>
                                         <td className="w-full py-4 px-1 flex justify-between">
-                                            <PencilSquareIcon onClick={() => { setSmbios(smbios), setModalEdit(true) }} className="w-5 hover:scale-110 cursor-pointer" />
-                                            <TrashIcon onClick={() => { setSmbios(smbios); setModalDel(true) }} className="w-5 hover:scale-110 cursor-pointer text-[#db021f]" />
+                                            <PencilSquareIcon onClick={() => { setSmbios(smbios); setModalUpInsert(true) }} className="w-5 hover:scale-110 cursor-pointer" />
+                                            <TrashIcon onClick={() => { setSmbios(smbios), setModalDelete(true) }} className="w-5 hover:scale-110 cursor-pointer text-[#db021f]" />
                                         </td>
                                     </tr>
                                 ))}
@@ -160,123 +170,19 @@ export const SMBios = () => {
                         </div>
                     }
                 </div>
-                <div className={`${modalDel ? "" : "hidden"}`}>
-                    <div className="fixed bg-black bg-opacity-50 inset-0"></div>
-                    <div className="fixed inset-0 w-full flex justify-center items-center" id="modalDel" onClick={(e: any) => e.target.id == "modalDel" && setModalDel(false)}>
-                        <div className="w-[25%] bg-zinc-800 rounded-lg p-[1rem] text-center flex flex-col gap-4">
-                            <div className="text-[#bebebe] mt-[2rem]">
-                                <span className="block text-[1.2rem] font-medium">Delete SMBIOS {smbios?.systemSkuNumber} {smbios?.systemVersion}</span>
-                                <span className="block text-[1rem]">Remembering that this action is irreversible</span>
-                            </div>
-                            <div className="flex justify-center items-center gap-2 text-[#bebebe] mt-3">
-                                <button
-                                    className="py-1 px-5 mr-2 mb-2 
-                                    border rounded border-[#db021f] 
-                                    text-[#db021f] hover:scale-105 
-                                    hover:text-[#bebebe]
-                                    hover:bg-[#db021f]"
-                                    onClick={() => setModalDel(false)}>
-                                    No
-                                </button>
-                                <button
-                                    className="py-1 px-5 mr-2 mb-2 
-                                    border rounded border-[#3B82F6]
-                                     text-[#3B82F6] hover:scale-105 
-                                     hover:text-[#bebebe]
-                                     hover:bg-[#3B82F6]"
-                                    onClick={() => deleteSmbios(smbios?.id)}>
-                                    Yes
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={`${modalEdit ? "" : "hidden"}`}>
-                    <div className="fixed bg-black bg-opacity-50 inset-0"></div>
-                    <div className="fixed inset-0 w-full flex justify-center items-center">
-                        <div className="w-[35%] bg-zinc-800 rounded-lg py-[1rem] px-[2rem] text-center flex flex-col gap-4">
-                            <div className="text-[#bebebe] mt-[2rem]">
-                                <span className="block text-[1.2rem] font-medium">Edit SMBIOS {smbios?.systemSkuNumber} - {smbios?.systemVersion}</span>
-                                <span className="block text-[1rem]">Edit any information related to SMBIOS</span>
-                                <div className="w-full my-[2rem]">
-                                    <form action="" method="post" className="grid grid-cols-2 gap-4">
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.systemProduct} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.systemFamily} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.systemVersion} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.systemSkuNumber} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.baseboardProduct} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.systemManufacture} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.baseboardManufacture} />
-                                        </div>
-                                        <div className="w-full bg-zinc-900 flex gap-2 items-center rounded px-2">
-                                            <input
-                                                type="text"
-                                                className="w-full bg-transparent outline-none px-1 py-[.3rem] text-[#bebebe]"                                                
-                                                value={smbios?.chassisManufacture} />
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <div className="flex justify-center items-center gap-2 text-[#bebebe] mt-3">
-                                <button
-                                    className="py-1 px-5 mr-2 mb-2 
-                                    border rounded border-[#db021f] 
-                                    text-[#db021f] hover:scale-105 
-                                    hover:text-[#f3f3f3]
-                                    hover:bg-[#db021f]"
-                                    onClick={() => setModalEdit(false)}>
-                                    No
-                                </button>
-                                <button
-                                    className="py-1 px-5 mr-2 mb-2 
-                                    border rounded border-[#3B82F6]
-                                     text-[#3B82F6] hover:scale-105 
-                                     hover:text-[#fdfdfd]
-                                     hover:bg-[#3B82F6]"
-                                    onClick={() => ""}>
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </section>
+            {modalDelete &&
+                <ModalDelete
+                    isOpen={() => setModalDelete(!modalDelete)}
+                    execute={deleteSmbios}
+                    smbios={smbios} />
+            }
+            {modalUpInsert &&
+                <ModalUpInsertModal
+                    isOpen={() => setModalUpInsert(!modalUpInsert)}
+                    execute={onSubmit}
+                    smbios={smbios} />
+            }
         </div>
     );
 };
