@@ -11,3 +11,15 @@ export interface ISMBios {
     chassisManufacture: string;
     status: Boolean;
 }
+
+export interface IWindowsVersion {
+    id?: string;
+    modelo: string;
+    systemVersion: string;
+    version: string;
+    csup: string;
+    numberPartitionsDisk: string;
+    windows: string;
+    status: Boolean;
+    data: string;
+}

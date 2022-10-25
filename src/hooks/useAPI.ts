@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISMBios } from '../interfaces/IProduct';
+import { ISMBios, IWindowsVersion } from '../interfaces/IProduct';
 
 const http = axios.create({
     baseURL: 'http://localhost:4001/api/',
@@ -18,13 +18,13 @@ const useSmbios = {
         return request.data;
     },
 
-    UpdateSmbios: async (id: string, smbios?: ISMBios) => {
-        const request = await http.put(`smbios/${id}`, smbios);
+    CreateSMbios: async (smbios: ISMBios) => {
+        const request = await http.post('smbios', smbios);
         return request.data;
     },
 
-    CreateSMbios: async (smbios: ISMBios) => {
-        const request = await http.post('smbios', smbios);
+    UpdateSmbios: async (smbios?: ISMBios) => {
+        const request = await http.put(`smbios/${smbios?.id}`, smbios);
         return request.data;
     },
 
@@ -34,4 +34,21 @@ const useSmbios = {
     }
 };
 
-export { useSmbios };
+const useWindowsVersion = {
+    GetAllWindowsVersion: async () => {
+        const request = await http.get('windowsversion');
+        return request.data;
+    },
+
+    GetWindowsVersion: async (search: string) => {
+        const request = await http.get(`windowsversion?search=${search}`);
+        return request.data;
+    },
+
+    CreateWindowsVersion: async (version: IWindowsVersion) => {
+        const request = await http.post('windowsversion', version);
+        return request.data;
+    }
+};
+
+export { useSmbios, useWindowsVersion };

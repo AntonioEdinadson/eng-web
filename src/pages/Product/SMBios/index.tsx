@@ -3,8 +3,8 @@ import {
     PlusCircleIcon,
     TrashIcon,
 } from "@heroicons/react/24/solid";
-import { RiSearchLine } from "react-icons/ri";
 
+import { RiSearchLine } from "react-icons/ri";
 import { useSmbios } from "../../../hooks/useAPI";
 import { useEffect, useState } from "react";
 
@@ -13,13 +13,13 @@ import { InfoUser } from "../../../components/InfoUser";
 import { INotify } from "../../../interfaces/INotify";
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
-import { ModalUpInsertModal } from "../../../components/Modal/UpInsert";
+import { ModalUpInsertModal } from "../../../components/Modal/UpInsertSmbios";
 
 
 export const SMBios = () => {
 
     const [smbiosData, setDataSmbios] = useState<ISMBios[] | null>(null);
-    const [smbios, setSmbios] = useState<ISMBios>();
+    const [smbios, setSmbios] = useState<ISMBios | null>(null);
 
     const [modalDelete, setModalDelete] = useState<Boolean>();
     const [modalUpInsert, setModalUpInsert] = useState<Boolean>();
@@ -45,6 +45,57 @@ export const SMBios = () => {
             setDataSmbios(request.smbios);
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    const onSubmit = async (e: any) => {
+        if (!smbios?.id) {
+            createSmbios(e);
+            return;
+        }
+        updateSmbios(e);
+    };
+
+    const createSmbios = async (e: ISMBios) => {
+        try {
+            const request = await useSmbios.CreateSMbios(e);
+
+            if (!request.smbios.id) {
+                SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
+                setModalUpInsert(false);
+                return;
+            }
+
+            SendNotification({ message: 'SMBIOS was successfully creating!', type: 'SUCCESS', status: true });
+            setModalUpInsert(false);
+            getSmbios();
+
+        } catch (error) {
+            console.log(error);
+            SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
+            setModalUpInsert(false);
+        }
+    };
+
+    const updateSmbios = async (e: ISMBios) => {
+        try {
+
+            const request = await useSmbios.UpdateSmbios(e);
+
+            if (!request.smbios.id) {
+                SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
+                setModalUpInsert(false);
+                return;
+            }
+
+            SendNotification({ message: 'SMBIOS was successfully update!', type: 'SUCCESS', status: true });
+            setModalUpInsert(false);
+            getSmbios();
+
+        } catch (error) {
+            console.log(error);
+            SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
+            setModalUpInsert(false);
         }
     };
 
@@ -76,16 +127,6 @@ export const SMBios = () => {
         }
     };
 
-    const onSubmit = async () => {
-
-        if (!smbios?.id) {
-            alert('create smbios');
-            return;
-        }
-
-        alert('updateSmbios');
-    };
-
     const SendNotification = async (notify: INotify) => {
         setNotify({ message: notify.message, status: notify.status, type: notify.type });
         setTimeout(() => setNotify({ message: notify.message, status: false, type: notify.type }), 3500);
@@ -113,7 +154,7 @@ export const SMBios = () => {
                             className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                             placeholder="pesquisar" />
                     </div>
-                    <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" onClick={() => setModalUpInsert(!modalUpInsert)} />
+                    <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" onClick={() => { setSmbios(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
             <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
@@ -151,9 +192,9 @@ export const SMBios = () => {
                                         <td className="py-4">
                                             {smbios.status
                                                 ?
-                                                <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ACTIVE</span>
+                                                <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ENABLE</span>
                                                 :
-                                                <span className="w-14 flex justify-center border border-[#db021f] text-[#db021f] py-[.1rem] rounded-lg text-[.7rem] font-bold">INACTIVE</span>
+                                                <span className="w-14 flex justify-center border border-[#db021f] text-[#db021f] py-[.1rem] rounded-lg text-[.7rem] font-bold">DISABLE</span>
                                             }
                                         </td>
                                         <td className="w-full py-4 px-1 flex justify-between">
@@ -175,12 +216,12 @@ export const SMBios = () => {
                 <ModalDelete
                     isOpen={() => setModalDelete(!modalDelete)}
                     execute={deleteSmbios}
-                    smbios={smbios} />
+                    model={smbios} />
             }
             {modalUpInsert &&
                 <ModalUpInsertModal
                     isOpen={() => setModalUpInsert(!modalUpInsert)}
-                    execute={onSubmit}
+                    execute={(e) => onSubmit(e)}
                     smbios={smbios} />
             }
         </div>

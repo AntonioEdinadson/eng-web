@@ -34,13 +34,7 @@ const menu = [
                 name: "SMBios Product",
                 path: "/product/smbios",
                 itens: []
-            },
-            {
-                icon: <CogIcon className='w-4' />,
-                name: "SystemInfo Product",
-                path: "/product/smbios",
-                itens: []
-            },
+            },            
             {
                 icon: <CogIcon className='w-4' />,
                 name: "Windows Version",
