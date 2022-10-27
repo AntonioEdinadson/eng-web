@@ -44,11 +44,94 @@ export const WindowsVersion = () => {
         }
     };
 
-    const onSubmit = async (e?: IWindowsVersion) => { };
+    const onSubmit = async (e: any) => {
+
+        if (!windowsVersion?.id) {
+            CreateWindowsVersion(e);
+            return;
+        }
+        updateWindowsVersion(e);
+    };
+
+    const CreateWindowsVersion = async (e: IWindowsVersion) => {
+        try {
+
+            console.log(e);
+            
+
+            const request = await useWindowsVersion.CreateWindowsVersion(e);
+
+            if (!request.versionWindows.id) {
+                SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
+                setModalUpInsert(false);
+                return;
+            }
+
+            SendNotification({ message: 'WindowsVersion was successfully creating!', type: 'SUCCESS', status: true });
+            setModalUpInsert(false);
+            getWindowsVersion();
+
+        } catch (error) {
+            console.log(error);
+            SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
+            setModalUpInsert(false);
+        }
+    };
+
+    const updateWindowsVersion = async (e: IWindowsVersion) => {
+        try {
+
+            const request = await useWindowsVersion.UpdateWindowsVersion(e);
+
+            if (!request.versionWindows.id) {
+                SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
+                setModalUpInsert(false);
+                return;
+            }
+
+            SendNotification({ message: 'WindowsVersion was successfully update!', type: 'SUCCESS', status: true });
+            setModalUpInsert(false);
+            getWindowsVersion();
+
+        } catch (error) {
+            console.log(error);
+            SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
+            setModalUpInsert(false);
+        }
+    };
 
     const deleteWindowsVersion = async () => {
-        alert(windowsVersion?.modelo);
+        try {
+
+            if (!windowsVersion?.id) {
+                SendNotification({ message: 'ID not found', type: 'ERROR', status: true });
+                setModalDelete(false);
+                return;
+            }
+
+            const request = await useWindowsVersion.DeleteWindowsVersion(windowsVersion.id);
+
+            if (!request.versionWindows.id) {
+                SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
+                setModalDelete(false);
+                return;
+            }
+
+            SendNotification({ message: 'WindowsVersion was successfully deleted!', type: 'SUCCESS', status: true });
+            setModalDelete(false);
+            getWindowsVersion();
+
+        } catch (error) {
+            console.log(error);
+            SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
+            setModalDelete(false);
+        }
     };
+
+    const SendNotification = async (notify: INotify) => {
+        setNotify({ message: notify.message, status: notify.status, type: notify.type });
+        setTimeout(() => setNotify({ message: notify.message, status: false, type: notify.type }), 3500);
+    }
 
     return (
         <div className="w-full h-screen mx-auto px-[2rem] py-6">
@@ -136,7 +219,8 @@ export const WindowsVersion = () => {
                 <ModalDelete
                     isOpen={() => setModalDelete(!modalDelete)}
                     execute={deleteWindowsVersion}
-                    model={windowsVersion} />
+                    model={windowsVersion} 
+                    title="WindowsVersion"/>
             }
             {modalUpInsert &&
                 <ModalUpInsertWindowsVersion

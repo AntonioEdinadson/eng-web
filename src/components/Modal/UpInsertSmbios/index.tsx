@@ -26,7 +26,14 @@ export const ModalUpInsertModal = ({ isOpen, execute, smbios }: UpInsertComponen
                         <form id="form" method="post" onSubmit={handleSubmit(execute)}>
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2 hidden">
-                                    <input type="text" {...register('id', { required: !smbios?.id ? true : false })} defaultValue={smbios?.id} />
+                                    <input type="text" {...register('id')} defaultValue={smbios?.id} />
+                                </div>
+                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                    <input type="text"
+                                        className="w-full p-1 outline-none bg-transparent"
+                                        {...register('modelo', { required: !smbios?.modelo ? true : false })}
+                                        defaultValue={smbios?.modelo}
+                                        placeholder={`${smbios?.modelo ? "" : "modelo"}`} />
                                 </div>
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"

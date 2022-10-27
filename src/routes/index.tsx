@@ -3,6 +3,7 @@ import { Dashboard } from '../pages/Dashboard';
 import { SMBios } from '../pages/Product/SMBios';
 import { Error } from "../pages/Error";
 import { WindowsVersion } from '../pages/Product/WindowsVersion';
+import { SecureBoot } from '../pages/Product/SecureBoot';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -21,6 +22,10 @@ export const RoutesList = () => {
         {
             path: '/product/windowsversion',
             element: <WindowsVersion />
+        },
+        {
+            path: '/product/secureboot',
+            element: <SecureBoot />
         },
         {
             path: '*',

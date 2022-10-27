@@ -18,14 +18,14 @@ export const ModalUpInsertWindowsVersion = (props: UpInsertComponentWindows) => 
             <div className="fixed inset-0 w-full flex justify-center items-center" id="modalDel">
                 <div className="relative w-[30%] bg-zinc-800 rounded-lg p-[1rem] text-center flex flex-col gap-4">
                     <div className="text-[#bebebe] mt-[2rem]">
-                        <span className="block text-[1.2rem] font-medium">{props.windows ? "Edit SMBIOS" : "Create SMBIOS"}</span>
+                        <span className="block text-[1.2rem] font-medium">{props.windows ? "Edit WindowsVersion" : "Create WindowsVersion"}</span>
                         <span className="block text-[1rem]">Remembering that this action is irreversible</span>
                     </div>
                     <section className="p-3">
                         <form id="form" method="post" onSubmit={handleSubmit(props.execute)}>
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2 hidden">
-                                    <input type="text" {...register('id', { required: !props.windows?.id ? true : false })} defaultValue={props.windows?.id} />
+                                    <input type="text" {...register('id')} defaultValue={props.windows?.id} />
                                 </div>
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"
@@ -51,21 +51,21 @@ export const ModalUpInsertWindowsVersion = (props: UpInsertComponentWindows) => 
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"
                                         className="w-full p-1 outline-none bg-transparent"
-                                        {...register('csup', { required: !props.windows?.csup ? true : false })}
+                                        {...register('csup', { required: !props.windows?.csup ? true : false, maxLength: 10 })}
                                         defaultValue={props.windows?.csup}
                                         placeholder={`${props.windows?.csup ? "" : "csup"}`} />
                                 </div>
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"
                                         className="w-full p-1 outline-none bg-transparent"
-                                        {...register('numberPartitionsDisk', { required: !props.windows?.numberPartitionsDisk ? true : false })}
+                                        {...register('numberPartitionsDisk', { required: !props.windows?.numberPartitionsDisk ? true : false, maxLength: 2 })}
                                         defaultValue={props.windows?.numberPartitionsDisk}
                                         placeholder={`${props.windows?.numberPartitionsDisk ? "" : "numberPartitionsDisk"}`} />
                                 </div>
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"
                                         className="w-full p-1 outline-none bg-transparent"
-                                        {...register('windows', { required: !props.windows?.windows ? true : false })}
+                                        {...register('windows', { required: !props.windows?.windows ? true : false, maxLength: 25 })}
                                         defaultValue={props.windows?.windows}
                                         placeholder={`${props.windows?.windows ? "" : "windows"}`} />
                                 </div>

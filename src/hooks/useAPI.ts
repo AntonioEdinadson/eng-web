@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISMBios, IWindowsVersion } from '../interfaces/IProduct';
+import { ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
 
 const http = axios.create({
     baseURL: 'http://localhost:4001/api/',
@@ -48,7 +48,44 @@ const useWindowsVersion = {
     CreateWindowsVersion: async (version: IWindowsVersion) => {
         const request = await http.post('windowsversion', version);
         return request.data;
+    },
+
+    UpdateWindowsVersion: async (version?: IWindowsVersion) => {
+        const request = await http.put(`windowsversion/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteWindowsVersion: async (id: string) => {
+        const request = await http.delete(`windowsversion/${id}`);
+        return request.data;
     }
 };
 
-export { useSmbios, useWindowsVersion };
+const useSecureBoot = {
+    GetAllSecureBoot: async () => {
+        const request = await http.get('secureboot');
+        return request.data;
+    },
+
+    GetSecureBoot: async (search: string) => {
+        const request = await http.get(`secureboot?search=${search}`);
+        return request.data;
+    },
+
+    CreateSecureBoot: async (version: ISecureBoot) => {
+        const request = await http.post('secureboot', version);
+        return request.data;
+    },
+
+    UpdateSecureBoot: async (version?: ISecureBoot) => {
+        const request = await http.put(`secureboot/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteSecureBoot: async (id: string) => {
+        const request = await http.delete(`secureboot/${id}`);
+        return request.data;
+    }
+}
+
+export { useSmbios, useWindowsVersion, useSecureBoot };

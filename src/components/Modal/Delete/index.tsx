@@ -1,19 +1,20 @@
-import { ISMBios, IWindowsVersion } from "../../../interfaces/IProduct";
+import { ISecureBoot, ISMBios, IWindowsVersion } from "../../../interfaces/IProduct";
 
 interface IModalDeletedComponent {
     isOpen: () => void;
     execute: () => void;
-    model: ISMBios | IWindowsVersion | null;
+    model: ISMBios | IWindowsVersion | ISecureBoot | null;
+    title: string;
 }
 
-export const ModalDelete = ({ isOpen, execute, model }: IModalDeletedComponent) => {
+export const ModalDelete = ({ isOpen, execute, model, title }: IModalDeletedComponent) => {
     return (
         <div className="">
             <div className="fixed bg-black bg-opacity-50 inset-0"></div>
             <div className="fixed inset-0 w-full flex justify-center items-center" id="modalDel">
                 <div className="w-[25%] bg-zinc-800 rounded-lg p-[1rem] text-center flex flex-col gap-4">
                     <div className="text-[#bebebe] mt-[2rem]">
-                        <span className="block text-[1.2rem] font-medium">Delete SMBIOS {model?.modelo} {model?.systemVersion}</span>
+                        <span className="block text-[1.2rem] font-medium">Delete {title} {model?.modelo}</span>
                         <span className="block text-[1rem]">Remembering that this action is irreversible</span>
                     </div>
                     <div className="flex justify-center items-center gap-2 text-[#bebebe] mt-3">

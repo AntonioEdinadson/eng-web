@@ -23,3 +23,9 @@ export interface IWindowsVersion {
     status: Boolean;
     data: string;
 }
+
+export interface ISecureBoot {
+    id?: string;
+    modelo: string;
+    status: Boolean;
+}
