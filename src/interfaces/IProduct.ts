@@ -29,3 +29,9 @@ export interface ISecureBoot {
     modelo: string;
     status: Boolean;
 }
+
+export interface ISDCard {
+    id?: string;
+    modelo: string;
+    status: Boolean;
+}

@@ -85,7 +85,7 @@ export const ModalUpInsertWindowsVersion = (props: UpInsertComponentWindows) => 
                                 </div>
                             </div>
                             <div className="w-full flex justify-end items-center gap-2 text-[#bebebe] mt-6">
-                                {props.windows?.status
+                                {props.windows
                                     ?
                                     <button
                                         className="w-[120px] py-1 px-5 mr-2 mb-2 

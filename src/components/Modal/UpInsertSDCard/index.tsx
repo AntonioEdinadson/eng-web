@@ -1,16 +1,16 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
-import { ISecureBoot } from "../../../interfaces/IProduct";
+import { ISDCard, ISecureBoot } from "../../../interfaces/IProduct";
 
 interface UpInsertComponentWindows {
     isOpen: () => void;
-    execute: (data?: ISecureBoot) => Promise<ISecureBoot | void>
-    secure: ISecureBoot | null;
+    execute: (data?: ISDCard) => Promise<ISDCard | void>
+    sdcard: ISDCard | null;
 }
 
-export const ModalUpInsertSecureBoot = (props: UpInsertComponentWindows) => {
+export const ModalUpInsertSDCard = (props: UpInsertComponentWindows) => {
 
-    const { register, handleSubmit } = useForm<ISecureBoot>();
+    const { register, handleSubmit } = useForm<ISDCard>();
 
     return (
         <div className="">
@@ -18,40 +18,40 @@ export const ModalUpInsertSecureBoot = (props: UpInsertComponentWindows) => {
             <div className="fixed inset-0 w-full flex justify-center items-center" id="modalDel">
                 <div className="relative w-[30%] bg-zinc-800 rounded-lg p-[1rem] text-center flex flex-col gap-4">
                     <div className="text-[#bebebe] mt-[2rem]">
-                        <span className="block text-[1.2rem] font-medium">{props.secure ? "Edit SecureBoot" : "Create SecureBoot"}</span>
+                        <span className="block text-[1.2rem] font-medium">{props.sdcard ? "Edit SDCard" : "Create SecureBoot"}</span>
                         <span className="block text-[1rem]">Remembering that this action is irreversible</span>
                     </div>
                     <section className="p-3">
                         <form id="form" method="post" onSubmit={handleSubmit(props.execute)}>
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2 hidden">
-                                    <input type="text" {...register('id')} defaultValue={props.secure?.id} />
+                                    <input type="text" {...register('id')} defaultValue={props.sdcard?.id} />
                                 </div>
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
                                     <input type="text"
                                         className="w-full p-1 outline-none bg-transparent"
-                                        {...register('modelo', { required: !props.secure?.modelo ? true : false })}
-                                        defaultValue={props.secure?.modelo}
-                                        placeholder={`${props.secure?.modelo ? "" : "modelo"}`} />
+                                        {...register('modelo', { required: !props.sdcard?.modelo ? true : false })}
+                                        defaultValue={props.sdcard?.modelo}
+                                        placeholder={`${props.sdcard?.modelo ? "" : "modelo"}`} />
                                 </div>
 
                                 <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
-                                    <select {...register("status")} defaultValue={`${props.secure?.status}`} className="w-full py-1 outline-none bg-transparent ">
+                                    <select {...register("status")} defaultValue={`${props.sdcard?.status}`} className="w-full py-1 outline-none bg-transparent ">
                                         <option
                                             value="1"
-                                            selected={props.secure?.status ? true : false}>
+                                            selected={props.sdcard?.status ? true : false}>
                                             ENABLE
                                         </option>
                                         <option
                                             value="0"
-                                            selected={props.secure?.status ? false : true}>
+                                            selected={props.sdcard?.status ? false : true}>
                                             DISABLE
                                         </option>
                                     </select>
                                 </div>
                             </div>
                             <div className="w-full flex justify-end items-center gap-2 text-[#bebebe] mt-6">
-                                {props.secure
+                                {props.sdcard
                                     ?
                                     <button
                                         className="w-[120px] py-1 px-5 mr-2 mb-2 

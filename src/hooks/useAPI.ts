@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
+import { ISDCard, ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
 
 const http = axios.create({
     baseURL: 'http://localhost:4001/api/',
@@ -88,4 +88,31 @@ const useSecureBoot = {
     }
 }
 
-export { useSmbios, useWindowsVersion, useSecureBoot };
+const useSDCard = {
+    GetAllSCard: async () => {
+        const request = await http.get('sdcard');
+        return request.data;
+    },
+
+    GetSDCard: async (search: string) => {
+        const request = await http.get(`sdcard?search=${search}`);
+        return request.data;
+    },
+
+    CreateSDCard: async (version: ISDCard) => {
+        const request = await http.post('sdcard', version);
+        return request.data;
+    },
+
+    UpdateSCard: async (version?: ISDCard) => {
+        const request = await http.put(`sdcard/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteSCard: async (id: string) => {
+        const request = await http.delete(`sdcard/${id}`);
+        return request.data;
+    }
+}
+
+export { useSmbios, useWindowsVersion, useSecureBoot, useSDCard };

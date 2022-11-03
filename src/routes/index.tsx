@@ -4,6 +4,7 @@ import { SMBios } from '../pages/Product/SMBios';
 import { Error } from "../pages/Error";
 import { WindowsVersion } from '../pages/Product/WindowsVersion';
 import { SecureBoot } from '../pages/Product/SecureBoot';
+import { SDCard } from '../pages/Product/SDCard';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -26,6 +27,10 @@ export const RoutesList = () => {
         {
             path: '/product/secureboot',
             element: <SecureBoot />
+        },
+        {
+            path: '/product/sdcard',
+            element: <SDCard />
         },
         {
             path: '*',

@@ -26,7 +26,7 @@ const menu = [
     },
     {
         icon: <PlusCircleIcon className="w-6 text-blue-500" />,
-        name: "Product",
+        name: "Product Configuration",
         path: "/product",
         itens: [
             {

@@ -4,15 +4,16 @@ import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
 import { InfoUser } from "../../../components/InfoUser";
 import { ModalDelete } from "../../../components/Modal/Delete";
+import { ModalUpInsertSDCard } from "../../../components/Modal/UpInsertSDCard";
 import { ModalUpInsertSecureBoot } from "../../../components/Modal/UpInsertSecureBoot";
-import { useSecureBoot } from "../../../hooks/useAPI";
+import { useSDCard, useSecureBoot } from "../../../hooks/useAPI";
 import { INotify } from "../../../interfaces/INotify";
-import { ISecureBoot } from "../../../interfaces/IProduct";
+import { ISDCard, ISecureBoot } from "../../../interfaces/IProduct";
 
-export const SecureBoot = () => {
+export const SDCard = () => {
 
-    const [secureBootData, setSecureBootData] = useState<ISecureBoot[] | null>(null);
-    const [secureBoot, setSecureBoot] = useState<ISecureBoot | null>(null);
+    const [SDCardData, setSDCardData] = useState<ISecureBoot[] | null>(null);
+    const [SDCard, setSDCard] = useState<ISecureBoot | null>(null);
 
     const [notify, setNotify] = useState<INotify>();
 
@@ -20,44 +21,41 @@ export const SecureBoot = () => {
     const [modalUpInsert, setModalUpInsert] = useState<Boolean>();
 
     useEffect(() => {
-        getSecureBoot();
+        getSDCard();
     }, []);
 
-    const getSecureBoot = async () => {
+    const getSDCard = async () => {
         try {
-            const data = await useSecureBoot.GetAllSecureBoot();
-            setSecureBootData(data.secureBoot);
+            const data = await useSDCard.GetAllSCard();
+            setSDCardData(data.sdCard);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const searchSecure = async (search: string) => {
+    const searchSDCard = async (search: string) => {
         try {
-            const request = await useSecureBoot.GetSecureBoot(search);
-            setSecureBootData(request.secureBoot);
+            const request = await useSDCard.GetSDCard(search);
+            setSDCardData(request.sdCard);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const createSmbios = async (e: ISecureBoot) => {
+    const createSDCard = async (e: ISDCard) => {
         try {
 
-            const request = await useSecureBoot.CreateSecureBoot(e);
+            const request = await useSDCard.CreateSDCard(e);
 
-            console.log(request);
-
-
-            if (!request.secureBoot.id) {
+            if (!request.sdCard.id) {
                 SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: 'SecureBoot was successfully creating!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'SDCard was successfully creating!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getSecureBoot();
+            getSDCard();
 
         } catch (error) {
             console.log(error);
@@ -66,20 +64,20 @@ export const SecureBoot = () => {
         }
     };
 
-    const updateSmbios = async (e: ISecureBoot) => {
+    const updateSDCard = async (e: ISDCard) => {
         try {
 
-            const request = await useSecureBoot.UpdateSecureBoot(e);
+            const request = await useSDCard.UpdateSCard(e);
 
-            if (!request.secureBoot.id) {
+            if (!request.sdCard.id) {
                 SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: ' SecureBoot successfully update!', type: 'SUCCESS', status: true });
+            SendNotification({ message: ' SDCard successfully update!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getSecureBoot();
+            getSDCard();
 
         } catch (error) {
             console.log(error);
@@ -88,26 +86,26 @@ export const SecureBoot = () => {
         }
     };
 
-    const deleteSecureBoot = async () => {
+    const deleteSDCard = async () => {
         try {
 
-            if (!secureBoot?.id) {
+            if (!SDCard?.id) {
                 SendNotification({ message: 'ID not found', type: 'ERROR', status: true });
                 setModalDelete(false);
                 return;
             }
 
-            const request = await useSecureBoot.DeleteSecureBoot(secureBoot.id);
+            const request = await useSDCard.DeleteSCard(SDCard.id);
 
-            if (!request.secureBoot.id) {
+            if (!request.sdCard.id) {
                 SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
                 setModalDelete(false);
                 return;
             }
 
-            SendNotification({ message: 'SecureBoot was successfully deleted!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'SDCard was successfully deleted!', type: 'SUCCESS', status: true });
             setModalDelete(false);
-            getSecureBoot();
+            getSDCard();
 
         } catch (error) {
             console.log(error);
@@ -118,11 +116,11 @@ export const SecureBoot = () => {
 
     const onSubmit = async (e: any) => {
 
-        if (!secureBoot?.id) {
-            createSmbios(e);
+        if (!SDCard?.id) {
+            createSDCard(e);
             return;
         }
-        updateSmbios(e);
+        updateSDCard(e);
     };
 
     const SendNotification = async (notify: INotify) => {
@@ -140,26 +138,26 @@ export const SecureBoot = () => {
             </div>
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
-                    <h1 className="font-medium text-[1.5rem]">SecureBoot</h1>
+                    <h1 className="font-medium text-[1.5rem]">SDCard</h1>
                     <h2>This page is used to do all the DMI configuration part of the product.</h2>
                 </div>
                 <div className="flex gap-6 items-center">
                     <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">
                         <RiSearchLine className="text-[#bebebe]" />
                         <input
-                            onChange={(e) => searchSecure(e.target.value)}
+                            onChange={(e) => searchSDCard(e.target.value)}
                             type="text"
                             className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                             placeholder="pesquisar" />
                     </div>
                     <PlusCircleIcon
                         className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer"
-                        onClick={() => { setSecureBoot(null); setModalUpInsert(!modalUpInsert) }} />
+                        onClick={() => { setSDCard(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
             <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
                 <div className="overflow-x-auto relative">
-                    {secureBootData && secureBootData.length > 0
+                    {SDCardData && SDCardData.length > 0
                         ?
                         <table className="min-w-[1366px] w-full text-sm text-left text-[#bebebe]">
                             <thead className="text-xs text-[#3B82F6] uppercase ">
@@ -171,7 +169,7 @@ export const SecureBoot = () => {
                                 </tr>
                             </thead>
                             <tbody className="">
-                                {secureBootData.map((secure: ISecureBoot, index: number) => (
+                                {SDCardData.map((secure: ISecureBoot, index: number) => (
                                     <tr className="" key={index}>
                                         <td className="py-4">{secure?.id}</td>
                                         <td className="py-4">{secure.modelo}</td>
@@ -186,10 +184,10 @@ export const SecureBoot = () => {
                                         <td className="w-full py-4 px-1 flex justify-between">
                                             <PencilSquareIcon
                                                 className="w-5 hover:scale-110 cursor-pointer"
-                                                onClick={() => { setSecureBoot(secure); setModalUpInsert(!modalUpInsert) }} />
+                                                onClick={() => { setSDCard(secure); setModalUpInsert(!modalUpInsert) }} />
                                             <TrashIcon
                                                 className="w-5 hover:scale-110 cursor-pointer text-[#db021f]"
-                                                onClick={() => { setSecureBoot(secure); setModalDelete(!modalDelete) }} />
+                                                onClick={() => { setSDCard(secure); setModalDelete(!modalDelete) }} />
                                         </td>
                                     </tr>
                                 ))}
@@ -205,15 +203,15 @@ export const SecureBoot = () => {
             {modalDelete &&
                 <ModalDelete
                     isOpen={() => setModalDelete(!modalDelete)}
-                    execute={deleteSecureBoot}
-                    model={secureBoot}
-                    title={"SecureBoot"} />
+                    execute={deleteSDCard}
+                    model={SDCard}
+                    title={"SDCard"} />
             }
             {modalUpInsert &&
-                <ModalUpInsertSecureBoot
+                <ModalUpInsertSDCard
                     isOpen={() => setModalUpInsert(!modalUpInsert)}
                     execute={(e) => onSubmit(e)}
-                    secure={secureBoot} />
+                    sdcard={SDCard} />
             }
         </div>
     );
