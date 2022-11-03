@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ISDCard, ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
+import { IModelDPK, IModelDPKConfig, ISDCard, ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
 
 const http = axios.create({
     baseURL: 'http://localhost:4001/api/',
@@ -115,4 +115,65 @@ const useSDCard = {
     }
 }
 
-export { useSmbios, useWindowsVersion, useSecureBoot, useSDCard };
+const useModelDPK = {
+    GetAllSModelDPK: async () => {
+        const request = await http.get('key');
+        return request.data;
+    },
+
+    GetModelDPK: async (search: string) => {
+        const request = await http.get(`key?search=${search}`);
+        return request.data;
+    },
+
+    CreateModelDPK: async (version: IModelDPK) => {
+        const request = await http.post('key', version);
+        return request.data;
+    },
+
+    UpdateModelDPK: async (version?: IModelDPK) => {
+        const request = await http.put(`key/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteModelDPK: async (id: string) => {
+        const request = await http.delete(`key/${id}`);
+        return request.data;
+    }
+};
+
+const useModelDPKConfig = {
+    GetAllSModelDPKConfig: async () => {
+        const request = await http.get('keyconfig');
+        return request.data;
+    },
+
+    GetModelDPKConfig: async (search: string) => {
+        const request = await http.get(`keyconfig?search=${search}`);
+        return request.data;
+    },
+
+    CreateModelDPKConfig: async (version: IModelDPKConfig) => {
+        const request = await http.post('keyconfig', version);
+        return request.data;
+    },
+
+    UpdateModelDPKConfig: async (version?: IModelDPKConfig) => {
+        const request = await http.put(`keyconfig/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteModelDPKConfig: async (id: string) => {
+        const request = await http.delete(`keyconfig/${id}`);
+        return request.data;
+    }
+}
+
+export {
+    useSmbios,
+    useWindowsVersion,
+    useSecureBoot,
+    useSDCard,
+    useModelDPK,
+    useModelDPKConfig
+};

@@ -139,7 +139,7 @@ export const SDCard = () => {
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
                     <h1 className="font-medium text-[1.5rem]">SDCard</h1>
-                    <h2>This page is used to do all the DMI configuration part of the product.</h2>
+                    <h2>This page is used to do all the SDCard configuration part of the product.</h2>
                 </div>
                 <div className="flex gap-6 items-center">
                     <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">

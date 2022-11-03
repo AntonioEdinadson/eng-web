@@ -35,3 +35,22 @@ export interface ISDCard {
     modelo: string;
     status: Boolean;
 }
+
+export interface IModelDPK {
+    id?: string;
+    modelo: string;
+    partnumber: string;
+    status: Boolean;
+}
+
+export interface IModelDPKConfig {
+    id?: string;
+    modelo: string;
+    ZPC_MODEL_SKU: string;
+    ZFRM_FATOR_CL1: string;
+    ZFRM_FATOR_CL2: string; 
+    ZSCREEN_SIZE: string;
+    ZTOUCH_SCREEN: string;
+    BUSINESSID: string;
+    ZPGM_ELIG_VAL: string;    
+}
