@@ -1,8 +1,16 @@
 import axios from 'axios';
-import { IModelDPK, IModelDPKConfig, ISDCard, ISecureBoot, ISMBios, IWindowsVersion } from '../interfaces/IProduct';
+import {
+    IModelDPK,
+    IModelDPKConfig,
+    IResolution,
+    ISDCard,
+    ISecureBoot,
+    ISMBios,
+    IWindowsVersion
+} from '../interfaces/IProduct';
 
 const http = axios.create({
-    baseURL: 'http://localhost:4001/api/',
+    baseURL: 'http://localhost:3000/espec/api',
     headers: { "Content-Type": "application/json" },
 });
 
@@ -169,11 +177,39 @@ const useModelDPKConfig = {
     }
 }
 
+const useResolution = {
+    GetAllSResolution: async () => {
+        const request = await http.get('resolution');
+        return request.data;
+    },
+
+    GetResolution: async (search: string) => {
+        const request = await http.get(`resolution?search=${search}`);
+        return request.data;
+    },
+
+    CreateResolution: async (version: IResolution) => {
+        const request = await http.post('resolution', version);
+        return request.data;
+    },
+
+    UpdateResolution: async (version?: IResolution) => {
+        const request = await http.put(`resolution/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteResolution: async (id: string) => {
+        const request = await http.delete(`resolution/${id}`);
+        return request.data;
+    }
+}
+
 export {
     useSmbios,
     useWindowsVersion,
     useSecureBoot,
     useSDCard,
     useModelDPK,
-    useModelDPKConfig
+    useModelDPKConfig,
+    useResolution
 };

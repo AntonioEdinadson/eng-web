@@ -48,9 +48,20 @@ export interface IModelDPKConfig {
     modelo: string;
     ZPC_MODEL_SKU: string;
     ZFRM_FATOR_CL1: string;
-    ZFRM_FATOR_CL2: string; 
+    ZFRM_FATOR_CL2: string;
     ZSCREEN_SIZE: string;
     ZTOUCH_SCREEN: string;
     BUSINESSID: string;
-    ZPGM_ELIG_VAL: string;    
+    ZPGM_ELIG_VAL: string;
+}
+
+export interface IResolution {
+    id?: number,
+    modelo: string;
+    systemVersion: string;
+    currentVerticalResolution: number;
+    currentHorizontalResolution: number;
+    equalResolution: number;
+    data: string;
+    status: boolean;
 }

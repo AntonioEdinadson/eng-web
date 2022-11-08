@@ -1,9 +1,9 @@
-import { IModelDPK, IModelDPKConfig, ISecureBoot, ISMBios, IWindowsVersion } from "../../../interfaces/IProduct";
+import { IModelDPK, IModelDPKConfig, IResolution, ISecureBoot, ISMBios, IWindowsVersion } from "../../../interfaces/IProduct";
 
 interface IModalDeletedComponent {
     isOpen: () => void;
     execute: () => void;
-    model: ISMBios | IWindowsVersion | ISecureBoot | IModelDPK | IModelDPKConfig | null;
+    model: ISMBios | IWindowsVersion | ISecureBoot | IModelDPK | IModelDPKConfig | IResolution | null;
     title: string;
 }
 

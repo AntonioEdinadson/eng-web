@@ -5,27 +5,28 @@ import {
     ClipboardDocumentIcon,
     FireIcon,
     UsersIcon,
-    HomeIcon
+    HomeIcon,
+    ComputerDesktopIcon
 } from '@heroicons/react/24/solid';
 
 import { RiChromeFill } from 'react-icons/ri';
+import logo from '../../assets/logo.webp';
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { INavbar } from '../../interfaces/INavbar';
 import { SubNav } from '../SubNav';
 
-import logo from '../../assets/logo.webp';
-
 const menu = [
     {
-        icon: <HomeIcon className="w-6 text-blue-500" />,
+        icon: <HomeIcon className="w-5 text-blue-500" />,
         name: "Dashboard",
         path: "/dashboard",
         itens: []
     },
     {
-        icon: <PlusCircleIcon className="w-6 text-blue-500" />,
+        icon: <PlusCircleIcon className="w-5 text-blue-500" />,
         name: "Product Configuration",
         path: "/product",
         itens: [
@@ -34,7 +35,7 @@ const menu = [
                 name: "SMBios Product",
                 path: "/product/smbios",
                 itens: []
-            },            
+            },
             {
                 icon: <CogIcon className='w-4' />,
                 name: "Windows Version",
@@ -74,7 +75,20 @@ const menu = [
         ]
     },
     {
-        icon: <ClipboardDocumentIcon className="w-6 text-blue-500" />,
+        icon: <ComputerDesktopIcon className="w-5 text-blue-500" />,
+        name: "Line Configuration",
+        path: "/item3",
+        itens: [
+            {
+                icon: <CogIcon className='w-4' />,
+                name: "DPK Quantity Control",
+                path: "/item",
+                itens: []
+            }
+        ]
+    },
+    {
+        icon: <ClipboardDocumentIcon className="w-5 text-blue-500" />,
         name: "Checklist",
         path: "/item2",
         itens: [
@@ -117,7 +131,7 @@ const menu = [
         ]
     },
     {
-        icon: <FireIcon className="w-6 text-blue-500" />,
+        icon: <FireIcon className="w-5 text-blue-500" />,
         name: "Microsoft",
         path: "/item3",
         itens: [
@@ -130,7 +144,7 @@ const menu = [
         ]
     },
     {
-        icon: <RiChromeFill className="text-[1.45rem] text-blue-500" />,
+        icon: <RiChromeFill className="text-[1.3rem] text-blue-500" />,
         name: "Chromebook",
         path: "/item3",
         itens: [
@@ -155,7 +169,7 @@ const menu = [
         ]
     },
     {
-        icon: <PlusCircleIcon className="w-6 text-blue-500" />,
+        icon: <PlusCircleIcon className="w-5 text-blue-500" />,
         name: "Technical Assistance",
         path: "/item1",
         itens: [
@@ -186,13 +200,13 @@ const menu = [
         ]
     },
     {
-        icon: <UsersIcon className="w-6 text-blue-500" />,
+        icon: <UsersIcon className="w-5 text-blue-500" />,
         name: "Users",
         path: "/item4",
         itens: []
     },
     {
-        icon: <CogIcon className="w-6 text-blue-500" />,
+        icon: <CogIcon className="w-5 text-blue-500" />,
         name: "Settings",
         path: "/item5",
         itens: []
