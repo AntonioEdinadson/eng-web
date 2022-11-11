@@ -21,8 +21,8 @@ import { SubNav } from '../SubNav';
 const menu = [
     {
         icon: <HomeIcon className="w-5 text-blue-500" />,
-        name: "Dashboard",
-        path: "/dashboard",
+        name: "Home",
+        path: "/home",
         itens: []
     },
     {
@@ -50,6 +50,12 @@ const menu = [
             },
             {
                 icon: <CogIcon className='w-4' />,
+                name: "Model Resolution",
+                path: "/product/modelresolution",
+                itens: []
+            },
+            {
+                icon: <CogIcon className='w-4' />,
                 name: "SDCard Check",
                 path: "/product/sdcard",
                 itens: []
@@ -64,12 +70,6 @@ const menu = [
                 icon: <CogIcon className='w-4' />,
                 name: "Model DPK Config",
                 path: "/product/modeldpkconfig",
-                itens: []
-            },
-            {
-                icon: <CogIcon className='w-4' />,
-                name: "Model Resolution",
-                path: "/product/modelresolution",
                 itens: []
             }
         ]
@@ -210,7 +210,7 @@ const menu = [
         name: "Settings",
         path: "/item5",
         itens: []
-    }
+    },
 ];
 
 export const Navbar = () => {
@@ -226,12 +226,9 @@ export const Navbar = () => {
     };
 
     return (
-        <aside className="w-[280px]">
-            <div className="fixed w-[280px] h-full py-[1.5rem] border-r border-zinc-800 overflow-auto">
-                <div className="w-full pb-[1.5rem] px-[1rem]">
-                    <Link to=""><img src={logo} className="w-[80%]" alt="logo" /></Link>
-                </div>
-                <ul className="text-[#878787] mt-[2rem]">
+        <aside className="w-[250px] px-3">
+            <div className="fixed w-[250px] h-[calc(100%-50px)] py-[1.5rem] border-r border-zinc-800 overflow-auto">
+                <ul className="text-[#878787]">
                     {contentMenu && contentMenu.length > 0 &&
                         <>
                             {contentMenu.map((menu: INavbar, index) => (

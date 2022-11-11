@@ -9,12 +9,10 @@ import { useSmbios } from "../../../hooks/useAPI";
 import { useEffect, useState } from "react";
 
 import { ISMBios } from "../../../interfaces/IProduct";
-import { InfoUser } from "../../../components/InfoUser";
 import { INotify } from "../../../interfaces/INotify";
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
 import { ModalUpInsertModal } from "../../../components/Modal/UpInsertSmbios";
-
 
 export const SMBios = () => {
 
@@ -60,7 +58,7 @@ export const SMBios = () => {
         try {
 
             console.log(e);
-            
+
 
             const request = await useSmbios.CreateSMbios(e);
 
@@ -137,13 +135,10 @@ export const SMBios = () => {
     }
 
     return (
-        <div className="w-full h-screen mx-auto px-[2rem] py-6">
+        <div className="w-full h-[calc(100vh-60px)] mx-auto px-[2rem] py-6">
             <div className={`w-full fixed top-[4rem] flex justify-end pr-4`}>
                 <Alert type={notify?.type} message={notify?.message} status={notify?.status} />
-            </div>
-            <div className="mb-10">
-                <InfoUser />
-            </div>
+            </div>            
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
                     <h1 className="font-medium text-[1.5rem]">SMBios Product</h1>
@@ -161,7 +156,7 @@ export const SMBios = () => {
                     <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" onClick={() => { setSmbios(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
-            <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
+            <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
                 <div className="overflow-x-auto relative">
                     {smbiosData && smbiosData.length > 0
                         ?
@@ -220,8 +215,8 @@ export const SMBios = () => {
                 <ModalDelete
                     isOpen={() => setModalDelete(!modalDelete)}
                     execute={deleteSmbios}
-                    model={smbios} 
-                    title="SMbios"/>
+                    model={smbios}
+                    title="SMbios" />
             }
             {modalUpInsert &&
                 <ModalUpInsertModal

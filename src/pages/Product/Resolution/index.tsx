@@ -2,7 +2,6 @@ import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24
 import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
-import { InfoUser } from "../../../components/InfoUser";
 import { ModalDelete } from "../../../components/Modal/Delete";
 import { ModalUpInsertResolution } from "../../../components/Modal/UpInsertResolution";
 import { useResolution } from "../../../hooks/useAPI";
@@ -128,17 +127,14 @@ export const Resolution = () => {
     }
 
     return (
-        <div className="w-full h-screen mx-auto px-[2rem] py-6">
+        <div className="w-full h-[calc(100vh-60px)] mx-auto px-[2rem] py-6">
             <div className={`w-full fixed top-[4rem] flex justify-end pr-4`}>
                 <Alert type={notify?.type} message={notify?.message} status={notify?.status} />
-            </div>
-            <div className="mb-10">
-                <InfoUser />
-            </div>
+            </div>            
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
-                    <h1 className="font-medium text-[1.5rem]">ModelDPK</h1>
-                    <h2>This page is used to do all the DPK configuration part of the product.</h2>
+                    <h1 className="font-medium text-[1.5rem]">Resolution</h1>
+                    <h2>This page is used to do all the resolution configuration part of the product.</h2>
                 </div>
                 <div className="flex gap-6 items-center">
                     <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">
@@ -154,7 +150,7 @@ export const Resolution = () => {
                         onClick={() => { setResolution(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
-            <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
+            <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
                 <div className="overflow-x-auto relative">
                     {resolutionData && resolutionData.length > 0
                         ?
@@ -177,7 +173,14 @@ export const Resolution = () => {
                                         <td className="py-4">{item.id}</td>
                                         <td className="py-4">{item.modelo}</td>
                                         <td className="py-4">{item.systemVersion}</td>
-                                        <td className="py-4">{item.equalResolution}</td>
+                                        <td className="py-4">
+                                            {item.equalResolution
+                                                ?
+                                                <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ON</span>
+                                                :
+                                                <span className="w-14 flex justify-center border border-[#db021f] text-[#db021f] py-[.1rem] rounded-lg text-[.7rem] font-bold">OFF</span>
+                                            }
+                                        </td>
                                         <td className="py-4">{item.currentVerticalResolution}</td>
                                         <td className="py-4">{item.currentHorizontalResolution}</td>
                                         <td className="py-4">
@@ -212,7 +215,7 @@ export const Resolution = () => {
                     isOpen={() => setModalDelete(!modalDelete)}
                     execute={deleteResolution}
                     model={resolution}
-                    title={"ModelDPK"} />
+                    title="Resolution" />
             }
             {
                 modalUpInsert &&

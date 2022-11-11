@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import { Dashboard } from '../pages/Dashboard';
+import { Home } from '../pages/Home';
 import { SMBios } from '../pages/Product/SMBios';
 import { Error } from "../pages/Error";
 import { WindowsVersion } from '../pages/Product/WindowsVersion';
@@ -13,11 +13,11 @@ export const RoutesList = () => {
     return useRoutes([
         {
             path: '/',
-            element: <Dashboard />
+            element: <Home />
         },
         {
-            path: '/dashboard',
-            element: <Dashboard />
+            path: '/home',
+            element: <Home />
         },
         {
             path: '/product/smbios',

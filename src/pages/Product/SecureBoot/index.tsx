@@ -2,7 +2,6 @@ import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24
 import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
-import { InfoUser } from "../../../components/InfoUser";
 import { ModalDelete } from "../../../components/Modal/Delete";
 import { ModalUpInsertSecureBoot } from "../../../components/Modal/UpInsertSecureBoot";
 import { useSecureBoot } from "../../../hooks/useAPI";
@@ -131,13 +130,10 @@ export const SecureBoot = () => {
     }
 
     return (
-        <div className="w-full h-screen mx-auto px-[2rem] py-6">
+        <div className="w-full h-[calc(100vh-60px)] mx-auto px-[2rem] py-6">
             <div className={`w-full fixed top-[4rem] flex justify-end pr-4`}>
                 <Alert type={notify?.type} message={notify?.message} status={notify?.status} />
-            </div>
-            <div className="mb-10">
-                <InfoUser />
-            </div>
+            </div>            
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
                     <h1 className="font-medium text-[1.5rem]">SecureBoot</h1>
@@ -157,7 +153,7 @@ export const SecureBoot = () => {
                         onClick={() => { setSecureBoot(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
-            <section className="relative w-full h-[calc(80%-5rem)] mt-[2rem] py-2 overflow-auto">
+            <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
                 <div className="overflow-x-auto relative">
                     {secureBootData && secureBootData.length > 0
                         ?
