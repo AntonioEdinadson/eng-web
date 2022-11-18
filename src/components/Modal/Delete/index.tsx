@@ -1,9 +1,10 @@
+import { IImageCreate, ILineSetup } from "../../../interfaces/ILineConfig";
 import { IModelDPK, IModelDPKConfig, IResolution, ISecureBoot, ISMBios, IWindowsVersion } from "../../../interfaces/IProduct";
 
 interface IModalDeletedComponent {
     isOpen: () => void;
     execute: () => void;
-    model: ISMBios | IWindowsVersion | ISecureBoot | IModelDPK | IModelDPKConfig | IResolution | null;
+    model: ISMBios | IWindowsVersion | ISecureBoot | IModelDPK | IModelDPKConfig | IResolution | ILineSetup | IImageCreate | null;
     title: string;
 }
 

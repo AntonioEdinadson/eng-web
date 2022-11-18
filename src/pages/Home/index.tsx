@@ -10,7 +10,7 @@ export const Home = () => {
         <div className="w-full h-[calc(100vh-60px)] mx-auto px-[2rem] py-6">
             <div className={`w-full fixed top-[4rem] flex justify-end pr-4`}>
                 <Alert type={notify?.type} message={notify?.message} status={notify?.status} />
-            </div>            
+            </div>
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
                     <h1 className="font-medium text-[1.5rem]">Welcome</h1>

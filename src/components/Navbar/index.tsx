@@ -10,10 +10,8 @@ import {
 } from '@heroicons/react/24/solid';
 
 import { RiChromeFill } from 'react-icons/ri';
-import logo from '../../assets/logo.webp';
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
 import { INavbar } from '../../interfaces/INavbar';
 import { SubNav } from '../SubNav';
@@ -77,12 +75,30 @@ const menu = [
     {
         icon: <ComputerDesktopIcon className="w-5 text-blue-500" />,
         name: "Line Configuration",
-        path: "/item3",
-        itens: [
+        path: "/lineconfig",
+        itens: [            
             {
                 icon: <CogIcon className='w-4' />,
-                name: "DPK Quantity Control",
+                name: "Create Image",
+                path: "/lineconfig/createimage",
+                itens: []
+            },
+            {
+                icon: <CogIcon className='w-4' />,
+                name: "Associate Image",
                 path: "/item",
+                itens: []
+            },
+            {
+                icon: <CogIcon className='w-4' />,
+                name: "Line Setup",
+                path: "/lineconfig/setup",
+                itens: []
+            },
+            {
+                icon: <CogIcon className='w-4' />,
+                name: "Config",
+                path: "/lineconfig/setup",
                 itens: []
             }
         ]

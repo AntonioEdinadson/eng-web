@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ILineSetup } from '../interfaces/ILineConfig';
 import {
     IModelDPK,
     IModelDPKConfig,
@@ -204,6 +205,94 @@ const useResolution = {
     }
 }
 
+const useLineSetup = {
+    GetAllLineSetup: async () => {
+        const request = await http.get('linesetup');
+        return request.data;
+    },
+
+    GetLineSetup: async (search: string) => {
+        const request = await http.get(`linesetup?search=${search}`);
+        return request.data;
+    },
+
+    CreateLineSetup: async (version: ILineSetup) => {
+        const request = await http.post('linesetup', version);
+        return request.data;
+    },
+
+    UpdateLineSetup: async (version?: ILineSetup) => {
+        const request = await http.put(`linesetup/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteLineSetup: async (id: number) => {
+        const request = await http.delete(`linesetup/${id}`);
+        return request.data;
+    }
+};
+
+const useModelImageStatus = {
+    GetAllModelImageStatus: async () => {
+        const request = await http.get('modelimagestatus');
+        return request.data;
+    },
+
+    GetLineSetup: async (search: string) => {
+        const request = await http.get(`linesetup?search=${search}`);
+        return request.data;
+    },
+
+    CreateResolution: async (version: ILineSetup) => {
+        const request = await http.post('resolution', version);
+        return request.data;
+    },
+
+    UpdateResolution: async (version?: ILineSetup) => {
+        const request = await http.put(`resolution/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteResolution: async (id: string) => {
+        const request = await http.delete(`resolution/${id}`);
+        return request.data;
+    }
+};
+
+const useModelImage = {
+    GetAllModelImage: async () => {
+        const request = await http.get('modelimage');
+        return request.data;
+    },
+
+    GetLineSetup: async (search: string) => {
+        const request = await http.get(`linesetup?search=${search}`);
+        return request.data;
+    },
+
+    CreateResolution: async (version: ILineSetup) => {
+        const request = await http.post('resolution', version);
+        return request.data;
+    },
+
+    UpdateResolution: async (version?: ILineSetup) => {
+        const request = await http.put(`resolution/${version?.id}`, version);
+        return request.data;
+    },
+
+    DeleteResolution: async (id: string) => {
+        const request = await http.delete(`resolution/${id}`);
+        return request.data;
+    }
+};
+
+const useModelSystemOperational = {
+    GetAllModelSystemOperational: async () => {
+        const request = await http.get('modelsystemoperational');
+        return request.data;
+    },
+};
+
 export {
     useSmbios,
     useWindowsVersion,
@@ -211,5 +300,9 @@ export {
     useSDCard,
     useModelDPK,
     useModelDPKConfig,
-    useResolution
+    useResolution,
+    useLineSetup,
+    useModelImage,
+    useModelImageStatus,
+    useModelSystemOperational
 };

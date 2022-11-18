@@ -8,9 +8,13 @@ import { SDCard } from '../pages/Product/SDCard';
 import { ModelDPK } from '../pages/Product/ModelDPK';
 import { ModelDPKConfig } from '../pages/Product/ModelDPKConfig';
 import { Resolution } from '../pages/Product/Resolution';
+import { LineConfig } from '../pages/LineConfig/LineSetup';
+import { CreateImage } from '../pages/LineConfig/CreateImage';
 
 export const RoutesList = () => {
     return useRoutes([
+
+        // HOME
         {
             path: '/',
             element: <Home />
@@ -19,6 +23,8 @@ export const RoutesList = () => {
             path: '/home',
             element: <Home />
         },
+
+        // PRODUTC
         {
             path: '/product/smbios',
             element: <SMBios />
@@ -47,6 +53,18 @@ export const RoutesList = () => {
             path: '/product/modelresolution',
             element: <Resolution />
         },
+
+        // LINE CONFIG        
+        {
+            path: '/lineconfig/setup',
+            element: <LineConfig />
+        },
+        {
+            path: '/lineconfig/createimage',
+            element: <CreateImage />
+        },
+
+        // CONFIG
         {
             path: '*',
             element: <Error />
