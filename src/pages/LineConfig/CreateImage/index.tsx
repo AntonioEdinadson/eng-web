@@ -5,7 +5,7 @@ import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
 import { ModalUpInsertLineSetup } from "../../../components/Modal/UpInsertLineSetup";
-import { useLineSetup } from "../../../hooks/useAPI";
+import { useLineSetup, useModelImageStatus, useModelSystemOperational } from "../../../hooks/useAPI";
 import { IImageCreate, ILineSetup } from "../../../interfaces/ILineConfig";
 import { INotify } from "../../../interfaces/INotify";
 import { ModalUpInsertCreateImage } from "../../../components/Modal/UpInsertCreateImage";
@@ -21,13 +21,15 @@ export const CreateImage = () => {
     const [modalUpInsert, setModalUpInsert] = useState<Boolean>();
 
     useEffect(() => {
-        getLineSetup();
+        getCreateImage();
     }, []);
 
-    const getLineSetup = async () => {
+    const getCreateImage = async () => {
         try {
-            const data = await useLineSetup.GetAllLineSetup();
-            setCreateImageData(data.linesetup);
+            const data = await useModelImageStatus.GetAllModelImageStatus();
+            console.log(data);
+
+            setCreateImageData(data.modelImageStatus);
         } catch (error) {
             console.log(error);
         }
@@ -55,7 +57,7 @@ export const CreateImage = () => {
 
             SendNotification({ message: 'LineSetup was successfully creating!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getLineSetup();
+            getCreateImage();
 
         } catch (error) {
             console.log(error);
@@ -80,7 +82,7 @@ export const CreateImage = () => {
 
             SendNotification({ message: ' LineSetup successfully update!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getLineSetup();
+            getCreateImage();
 
         } catch (error) {
             console.log(error);
@@ -108,7 +110,7 @@ export const CreateImage = () => {
 
             SendNotification({ message: 'LineSetup was successfully deleted!', type: 'SUCCESS', status: true });
             setModalDelete(false);
-            getLineSetup();
+            getCreateImage();
 
         } catch (error) {
             console.log(error);
@@ -119,13 +121,13 @@ export const CreateImage = () => {
 
     const onSubmit = async (e: any) => {
 
-        console.log(e);        
+        console.log(e);
 
-        if (!createImage?.id) {
-            createLineSetup(e);
-            return;
-        }
-        updateLineSetup(e);
+        // if (!createImage?.id) {
+        //     createLineSetup(e);
+        //     return;
+        // }
+        // updateLineSetup(e);
     };
 
     const SendNotification = async (notify: INotify) => {
@@ -158,6 +160,71 @@ export const CreateImage = () => {
                 </div>
             </div>
 
+            <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
+                <div className="overflow-x-auto relative">
+                    {createImageData && createImageData.length > 0
+                        ?
+                        <table className="min-w-[1366px] w-full text-sm text-left text-[#bebebe]">
+                            <thead className="text-xs text-[#3B82F6] uppercase ">
+                                <tr className="">
+                                    <th className="py-3">#</th>
+                                    <th className="py-3">OPSystem</th>
+                                    <th className="py-3">OPSystemVersion</th>
+                                    <th className="py-3">Language</th>
+                                    <th className="py-3">BuildVersion</th>
+                                    <th className="py-3">Recovery</th>
+                                    <th className="py-3">FileName</th>
+                                    <th className="py-3">FileDate</th>
+                                    <th className="py-3">Observation</th>
+                                    <th className="py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody className="">
+                                {createImageData.map((key: IImageCreate, index: number) => (
+                                    <tr className="" key={index}>
+                                        <td className="py-4">{key?.id}</td>
+                                        <td className="py-4">{key.operationalSystem}</td>
+                                        <td className="py-4">{key.operationalSystemVersion}</td>
+                                        <td className="py-4">{key.language}</td>
+                                        <td className="py-4">{key.buildVersion}</td>
+                                        <td className="py-4">
+                                            {key.recovery == 'S'
+                                                ?
+                                                <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ON</span>
+                                                :
+                                                <span className="w-14 flex justify-center border border-[#db021f] text-[#db021f] py-[.1rem] rounded-lg text-[.7rem] font-bold">OFF</span>
+                                            }
+                                        </td>
+                                        <td className="py-4">{key.fileName}</td>
+                                        <td className="py-4">{key.fileDate}</td>
+                                        <td className="py-4">{key.observation}</td>
+                                        <td className="py-4">
+                                            {key.status
+                                                ?
+                                                <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ENABLE</span>
+                                                :
+                                                <span className="w-14 flex justify-center border border-[#db021f] text-[#db021f] py-[.1rem] rounded-lg text-[.7rem] font-bold">DISABLE</span>
+                                            }
+                                        </td>
+                                        <td className="w-full py-4 px-1 flex justify-between">
+                                            <PencilSquareIcon
+                                                className="w-5 hover:scale-110 cursor-pointer"
+                                                onClick={() => ""} />
+                                            <TrashIcon
+                                                className="w-5 hover:scale-110 cursor-pointer text-[#db021f]"
+                                                onClick={() => ""} />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        :
+                        <div>
+                            <span className="text-white">D000</span>
+                        </div>
+                    }
+                </div>
+            </section>
             {modalDelete &&
                 <ModalDelete
                     isOpen={() => setModalDelete(!modalDelete)}
@@ -166,10 +233,12 @@ export const CreateImage = () => {
                     title={"Create"} />
             }
 
-            <ModalUpInsertCreateImage
-                isOpen={() => setModalUpInsert(!modalUpInsert)}
-                execute={(e) => onSubmit(e)}
-                image={createImage} />
+            {modalUpInsert &&
+                <ModalUpInsertCreateImage
+                    isOpen={() => setModalUpInsert(!modalUpInsert)}
+                    execute={(e) => onSubmit(e)}
+                    image={createImage} />
+            }
         </div>
     );
 };
