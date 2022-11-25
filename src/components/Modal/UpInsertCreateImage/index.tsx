@@ -5,7 +5,6 @@ import { XMarkIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
 import { IImageCreate, ISelect, ISystemOperational } from "../../../interfaces/ILineConfig";
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-
 import Select from 'react-select';
 
 import { useModelSystemOperational } from "../../../hooks/useAPI";
@@ -64,16 +63,16 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
         try {
 
             const data = await useModelSystemOperational.GetAllModelSystemOperational();
-            setListSystemOperational(
-                data.systemOperational.map((list: ISystemOperational) => {
+            const newData = data.systemOperational.map((list: ISystemOperational) => {
 
-                    return {
-                        label: list.name,
-                        value: list.id,
-                        version: list.version
-                    }
-                })
-            );
+                return {
+                    label: list.name,
+                    value: list.id,
+                    version: list.version
+                }
+            });
+
+            setListSystemOperational(newData);
 
         } catch (error) {
             console.log(error);
@@ -97,7 +96,7 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
             setListVersionOperational(newVersion as ISelect[]);
 
         } catch (error) {
-            console.log();
+            console.log(error);
         }
     };
 
@@ -113,9 +112,69 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                     <section className="p-3">
                         <form id="form" method="post" onSubmit={handleSubmit(execute)} encType="multipart/form-data">
                             <div className="grid grid-cols-2 gap-3">
-                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2 hidden">
-                                    <input type="text" {...register('id')} defaultValue={image?.id} />
+
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">OperationalSystem</span>
+                                    <Controller
+                                        name="operationalSystem"
+                                        control={control}
+                                        rules={image?.operationalSystem ? {} : { required: "OPSystem is required." }}
+                                        render={({ field: { value, onChange } }) => (
+                                            <Select
+                                                styles={customStylesSelect}
+                                                options={listSystemOperational}
+                                                value={listSystemOperational.find((e: any) => e.value == value)}
+                                                defaultValue={{ label: `${image?.operationalSystem}`, value: 0 }}
+                                                onChange={(e: any) => {
+                                                    onChange(e.value);
+                                                    setSystemOperational(e);
+                                                }}
+                                            />
+                                        )}
+                                    />
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="operationalSystem"
+                                        render={({ message }) => <p className="text-red-400 text-[.8rem] py-1">{message}</p>}
+                                    />
                                 </div>
+
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">OperationalSystemVersion</span>
+                                    <Controller
+                                        name="operationalSystemVersion"
+                                        control={control}
+                                        rules={image?.operationalSystem ? {} : { required: "OPSystemVersion is required." }}
+                                        render={({ field: { value, onChange } }) => (
+                                            <Select
+                                                styles={customStylesSelect}
+                                                options={listVersionOperational}
+                                                value={listVersionOperational.find((e: any) => e.value == value)}
+                                                defaultValue={{ label: `${image?.operationalSystemVersion}`, value: 0 }}
+                                                onChange={(e: any) => onChange(e.value)}
+                                            />
+                                        )}
+                                    />
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="operationalSystemVersion"
+                                        render={({ message }) => <p className="text-red-400 text-[.8rem] py-1">{message}</p>}
+                                    />
+                                </div>
+
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">Language</span>
+                                    <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                        <input type="text"
+                                            className="w-full p-[.45rem] outline-none bg-transparent"
+                                            {...register('language', { required: "FEOEUEUOU" })}
+                                            defaultValue={image?.language && image?.language}
+                                            placeholder="Select Language"
+                                        />
+                                    </div>
+                                    {errors.language && <p className="text-red-400 text-[.8rem] py-1">{errors.language.message}</p>}
+                                </div>
+
                             </div>
                             <div className="w-full flex justify-end items-center gap-2 text-[#bebebe] mt-6">
                                 {image

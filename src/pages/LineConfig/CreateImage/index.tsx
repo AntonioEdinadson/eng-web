@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
-import { ModalUpInsertLineSetup } from "../../../components/Modal/UpInsertLineSetup";
-import { useLineSetup, useModelImageStatus, useModelSystemOperational } from "../../../hooks/useAPI";
+import { useLineSetup, useModelImageStatus } from "../../../hooks/useAPI";
 import { IImageCreate, ILineSetup } from "../../../interfaces/ILineConfig";
 import { INotify } from "../../../interfaces/INotify";
 import { ModalUpInsertCreateImage } from "../../../components/Modal/UpInsertCreateImage";
@@ -35,10 +34,11 @@ export const CreateImage = () => {
         }
     };
 
-    const searchLineSetup = async (search: string) => {
+    const searchCreateImage = async (search: string) => {
         try {
-            const request = await useLineSetup.GetLineSetup(search);
-            setCreateImageData(request.linesetup);
+            const request = await useModelImageStatus.GetModelImageStatus(search);
+            console.log(request);
+            setCreateImageData(request.modelImageStatus);
         } catch (error) {
             console.log(error);
         }
@@ -149,14 +149,14 @@ export const CreateImage = () => {
                     <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">
                         <RiSearchLine className="text-[#bebebe]" />
                         <input
-                            onChange={(e) => searchLineSetup(e.target.value)}
+                            onChange={(e) => searchCreateImage(e.target.value)}
                             type="text"
                             className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                             placeholder="pesquisar" />
                     </div>
                     <PlusCircleIcon
                         className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer"
-                        onClick={() => ""} />
+                        onClick={() => { setCreateImage(null); setModalUpInsert(!modalUpInsert) }} />
                 </div>
             </div>
 
@@ -209,10 +209,10 @@ export const CreateImage = () => {
                                         <td className="w-full py-4 px-1 flex justify-between">
                                             <PencilSquareIcon
                                                 className="w-5 hover:scale-110 cursor-pointer"
-                                                onClick={() => ""} />
+                                                onClick={() => { setCreateImage(key); setModalUpInsert(!modalUpInsert) }} />
                                             <TrashIcon
                                                 className="w-5 hover:scale-110 cursor-pointer text-[#db021f]"
-                                                onClick={() => ""} />
+                                                onClick={() => { setCreateImage(key); setModalDelete(!modalDelete) }} />
                                         </td>
                                     </tr>
                                 ))}

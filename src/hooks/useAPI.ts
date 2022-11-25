@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ILineSetup } from '../interfaces/ILineConfig';
+
 import {
     IModelDPK,
     IModelDPKConfig,
@@ -238,23 +239,23 @@ const useModelImageStatus = {
         return request.data;
     },
 
-    GetLineSetup: async (search: string) => {
-        const request = await http.get(`linesetup?search=${search}`);
+    GetModelImageStatus: async (search: string) => {
+        const request = await http.get(`modelimagestatus?search=${search}`);
         return request.data;
     },
 
     CreateResolution: async (version: ILineSetup) => {
-        const request = await http.post('resolution', version);
+        const request = await http.post('modelimagestatus', version);
         return request.data;
     },
 
-    UpdateResolution: async (version?: ILineSetup) => {
-        const request = await http.put(`resolution/${version?.id}`, version);
+    UpdateImageStatus: async (version?: ILineSetup) => {
+        const request = await http.put(`modelimagestatus/${version?.id}`, version);
         return request.data;
     },
 
-    DeleteResolution: async (id: string) => {
-        const request = await http.delete(`resolution/${id}`);
+    DeleteImageStatus: async (id: string) => {
+        const request = await http.delete(`modelimagestatus/${id}`);
         return request.data;
     }
 };

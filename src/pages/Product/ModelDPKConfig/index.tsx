@@ -139,7 +139,7 @@ export const ModelDPKConfig = () => {
             </div>            
             <div className="w-full h-5rem flex justify-between items-center">
                 <div className="text-[#bebebe]">
-                    <h1 className="font-medium text-[1.5rem]">SMBios Product</h1>
+                    <h1 className="font-medium text-[1.5rem]">ModelDpk Config</h1>
                     <h2>This page is used to do all the SMBios configuration part of the product.</h2>
                 </div>
                 <div className="flex gap-6 items-center">
