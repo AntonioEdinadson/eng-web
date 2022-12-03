@@ -26,8 +26,6 @@ export const CreateImage = () => {
     const getCreateImage = async () => {
         try {
             const data = await useModelImageStatus.GetAllModelImageStatus();
-            console.log(data);
-
             setCreateImageData(data.modelImageStatus);
         } catch (error) {
             console.log(error);
