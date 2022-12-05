@@ -44,13 +44,10 @@ const customStylesSelect = {
 
 export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertComponentCreateImage) => {
 
-    const { register, handleSubmit, control, formState: { errors } } = useForm<IImageCreate>();
+    const { register, handleSubmit, control, formState: { errors }, setValue } = useForm<IImageCreate>();
     const [listSystemOperational, setListSystemOperational] = useState<ISelect[]>([]);
 
     const [status, setStatus] = useState<ISelect[]>([]);
-
-    const [fileDate, setFileDate] = useState<string>();
-    const [fileName, setName] = useState<string>();
 
     const getListSystemOperational = async () => {
         try {
@@ -86,8 +83,8 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
     }, []);
 
     const handleFiles = (e: any) => {
-        setFileDate(e.target.files[0].name);
-        setName(e.target.files[0].name);
+        setValue('fileName', e.target.files[0].name);
+        setValue('fileDate', `${e.target.files[0].lastModifiedDate}`);
     };
 
     return (
@@ -150,8 +147,8 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                                                     }
                                                     :
                                                     {
-                                                        label: 'ENABLE',
-                                                        value: 1
+                                                        label: 'Select',
+                                                        value: 0
                                                     }
                                                 }
                                                 onChange={(e: any) => onChange(e.value)}
@@ -184,8 +181,8 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                                                     }
                                                     :
                                                     {
-                                                        label: 'ENABLE',
-                                                        value: 1
+                                                        label: 'Select',
+                                                        value: 0
                                                     }
                                                 }
                                                 onChange={(e: any) => onChange(e.value)}
@@ -250,7 +247,33 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                                             />
                                         </label>
                                     </div>
-                                </div>                               
+                                </div>
+
+                                <div className="col-span-2">
+                                    <span className="block text-zinc-500 pb-1">Image Name</span>
+                                    <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                        <input type="text"
+                                            disabled
+                                            {...register('fileName')}
+                                            className="w-full p-[.45rem] outline-none bg-transparent"
+                                            defaultValue={image?.fileName && image.fileName}
+                                            placeholder="FileName"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">Image Date</span>
+                                    <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                        <input type="text"
+                                            disabled
+                                            {...register('fileDate')}
+                                            className="w-full p-[.45rem] outline-none bg-transparent"
+                                            defaultValue={image?.fileDate && image.fileDate}
+                                            placeholder="FileDate"
+                                        />
+                                    </div>
+                                </div>
 
                             </div>
                             <div className="w-full flex justify-end items-center gap-2 text-[#bebebe] mt-6">

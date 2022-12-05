@@ -8,6 +8,7 @@ import { useLineSetup, useModelImageStatus } from "../../../hooks/useAPI";
 import { IImageCreate, ILineSetup } from "../../../interfaces/ILineConfig";
 import { INotify } from "../../../interfaces/INotify";
 import { ModalUpInsertCreateImage } from "../../../components/Modal/UpInsertCreateImage";
+import moment from 'moment';
 
 export const CreateImage = () => {
 
@@ -42,18 +43,18 @@ export const CreateImage = () => {
         }
     };
 
-    const createLineSetup = async (e: ILineSetup) => {
+    const createLineSetup = async (e: IImageCreate) => {
         try {
 
-            const request = await useLineSetup.CreateLineSetup(e);
+            const request = await useModelImageStatus.CreateImageStatus(e);
 
-            if (!request.linesetup.id) {
+            if (!request.modelImageStatus.id) {
                 SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: 'LineSetup was successfully creating!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'ModelImageStatus was successfully creating!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
             getCreateImage();
 
@@ -64,21 +65,18 @@ export const CreateImage = () => {
         }
     };
 
-    const updateLineSetup = async (e: ILineSetup) => {
+    const updateLineSetup = async (e: IImageCreate) => {
         try {
 
-            console.log(e);
+            const request = await useModelImageStatus.UpdateImageStatus(e);
 
-
-            const request = await useLineSetup.UpdateLineSetup(e);
-
-            if (!request.linesetup.id) {
+            if (!request.modelImageStatus.id) {
                 SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: ' LineSetup successfully update!', type: 'SUCCESS', status: true });
+            SendNotification({ message: ' ModelImageStatus successfully update!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
             getCreateImage();
 
@@ -98,9 +96,9 @@ export const CreateImage = () => {
                 return;
             }
 
-            const request = await useLineSetup.DeleteLineSetup(createImage.id);
+            const request = await useModelImageStatus.DeleteImageStatus(createImage.id);
 
-            if (!request.linesetup.id) {
+            if (!request.modelImageStatus.id) {
                 SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
                 setModalDelete(false);
                 return;
@@ -117,15 +115,16 @@ export const CreateImage = () => {
         }
     };
 
-    const onSubmit = async (e: any) => {
+    const onSubmit = async (e: IImageCreate) => {        
+        
+        console.log(e);        
 
-        console.log(e);
+        if (!createImage?.id) {
+            createLineSetup(e);
+            return;
+        }
 
-        // if (!createImage?.id) {
-        //     createLineSetup(e);
-        //     return;
-        // }
-        // updateLineSetup(e);
+        updateLineSetup(e);
     };
 
     const SendNotification = async (notify: INotify) => {
@@ -234,7 +233,7 @@ export const CreateImage = () => {
             {modalUpInsert &&
                 <ModalUpInsertCreateImage
                     isOpen={() => setModalUpInsert(!modalUpInsert)}
-                    execute={(e) => onSubmit(e)}
+                    execute={(e: any) => onSubmit(e)}
                     image={createImage} />
             }
         </div>
