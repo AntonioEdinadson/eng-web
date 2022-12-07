@@ -86,7 +86,7 @@ const menu = [
             {
                 icon: <CogIcon className='w-4' />,
                 name: "Associate Image",
-                path: "/item",
+                path: "/lineconfig/associateimage",
                 itens: []
             },
             {

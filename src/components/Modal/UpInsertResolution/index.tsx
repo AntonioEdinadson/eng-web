@@ -1,6 +1,6 @@
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
-import { IModelDPK, IResolution } from "../../../interfaces/IProduct";
+import { IResolution } from "../../../interfaces/IProduct";
 
 interface UpInsertComponent {
     isOpen: () => void;

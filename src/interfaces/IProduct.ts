@@ -12,6 +12,19 @@ export interface ISMBios {
     status: Boolean;
 }
 
+export interface ISystemInfo {
+    id?: string;
+    modelo: string;
+    systemVersion: string;
+    assetTag?: string;
+    biosVersion: string;
+    diskSize: string;
+    memorySize: string;
+    cpuType: string;
+    diskSizeTolerancePercentage: string;
+    status: number
+}
+
 export interface IWindowsVersion {
     id?: string;
     modelo: string;

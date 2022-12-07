@@ -100,6 +100,10 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                         <form id="form" method="post" onSubmit={handleSubmit(execute)} encType="multipart/form-data">
                             <div className="grid grid-cols-3 gap-3">
 
+                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2 hidden">
+                                    <input type="text" {...register('id')} defaultValue={image?.id} />
+                                </div>
+
                                 <div className="col-span-2">
                                     <span className="block text-zinc-500 pb-1">OperationalSystem</span>
                                     <Controller

@@ -10,6 +10,7 @@ import { ModelDPKConfig } from '../pages/Product/ModelDPKConfig';
 import { Resolution } from '../pages/Product/Resolution';
 import { LineConfig } from '../pages/LineConfig/LineSetup';
 import { CreateImage } from '../pages/LineConfig/CreateImage';
+import { AssociateImage } from '../pages/LineConfig/AssociateImage';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -62,6 +63,10 @@ export const RoutesList = () => {
         {
             path: '/lineconfig/createimage',
             element: <CreateImage />
+        },
+        {
+            path: '/lineconfig/associateimage',
+            element: <AssociateImage />
         },
 
         // CONFIG

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IImageCreate, ILineSetup } from '../interfaces/ILineConfig';
+import { IAssociateImage, IImageCreate, ILineSetup } from '../interfaces/ILineConfig';
 
 import {
     IModelDPK,
@@ -8,6 +8,7 @@ import {
     ISDCard,
     ISecureBoot,
     ISMBios,
+    ISystemInfo,
     IWindowsVersion
 } from '../interfaces/IProduct';
 
@@ -40,6 +41,34 @@ const useSmbios = {
 
     DeleteSmbios: async (id: string) => {
         const request = await http.delete(`smbios/${id}`);
+        return request.data;
+    }
+};
+
+const useSystemInfo = {
+
+    GetAllSystemInfo: async () => {
+        const request = await http.get('systeminfo');
+        return request.data;
+    },
+
+    GetSystemInfo: async (search: string) => {
+        const request = await http.get(`systeminfo?search=${search}`);
+        return request.data;
+    },
+
+    CreateSystemInfo: async (system: ISystemInfo) => {
+        const request = await http.post('systeminfo', system);
+        return request.data;
+    },
+
+    UpdateSystemInfo: async (system?: ISystemInfo) => {
+        const request = await http.put(`systeminfo/${system?.id}`, system);
+        return request.data;
+    },
+
+    DeleteSystemInfo: async (id: string) => {
+        const request = await http.delete(`systeminfo/${id}`);
         return request.data;
     }
 };
@@ -266,23 +295,23 @@ const useModelImage = {
         return request.data;
     },
 
-    GetLineSetup: async (search: string) => {
-        const request = await http.get(`linesetup?search=${search}`);
+    GetModelImage: async (search: string) => {
+        const request = await http.get(`modelimage?search=${search}`);
         return request.data;
     },
 
-    CreateResolution: async (version: ILineSetup) => {
-        const request = await http.post('resolution', version);
+    CreateModelImage: async (version: IAssociateImage) => {
+        const request = await http.post('modelimage', version);
         return request.data;
     },
 
-    UpdateResolution: async (version?: ILineSetup) => {
-        const request = await http.put(`resolution/${version?.id}`, version);
+    UpdateModelImage: async (image?: IAssociateImage) => {
+        const request = await http.put(`modelimage/${image?.id}`, image);
         return request.data;
     },
 
-    DeleteResolution: async (id: string) => {
-        const request = await http.delete(`resolution/${id}`);
+    DeleteModelImage: async (id: number) => {
+        const request = await http.delete(`modelimage/${id}`);
         return request.data;
     }
 };
@@ -296,6 +325,7 @@ const useModelSystemOperational = {
 
 export {
     useSmbios,
+    useSystemInfo,
     useWindowsVersion,
     useSecureBoot,
     useSDCard,

@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
-import { useLineSetup, useModelImageStatus } from "../../../hooks/useAPI";
-import { IImageCreate, ILineSetup } from "../../../interfaces/ILineConfig";
+import { useModelImageStatus } from "../../../hooks/useAPI";
+import { IImageCreate } from "../../../interfaces/ILineConfig";
 import { INotify } from "../../../interfaces/INotify";
 import { ModalUpInsertCreateImage } from "../../../components/Modal/UpInsertCreateImage";
 import moment from 'moment';
@@ -115,15 +115,11 @@ export const CreateImage = () => {
         }
     };
 
-    const onSubmit = async (e: IImageCreate) => {        
-        
-        console.log(e);        
-
+    const onSubmit = async (e: IImageCreate) => {
         if (!createImage?.id) {
             createLineSetup(e);
             return;
         }
-
         updateLineSetup(e);
     };
 
@@ -182,7 +178,7 @@ export const CreateImage = () => {
                                         <td className="py-4">{key?.id}</td>
                                         <td className="py-4">{key.operationalSystem}</td>
                                         <td className="py-4">{key.operationalSystemVersion}</td>
-                                        <td className="py-4">{key.language}</td>
+                                        <td className="py-4">{key?.language.toUpperCase()}</td>
                                         <td className="py-4">{key.buildVersion}</td>
                                         <td className="py-4">
                                             {key.recovery == 'S'
@@ -193,7 +189,7 @@ export const CreateImage = () => {
                                             }
                                         </td>
                                         <td className="py-4">{key.fileName}</td>
-                                        <td className="py-4">{key.fileDate}</td>
+                                        <td className="py-4">{moment(key.fileDate).format('YYYY-MM-DD h:mm:ss')}</td>
                                         <td className="py-4">{key.observation}</td>
                                         <td className="py-4">
                                             {key.status
@@ -217,7 +213,7 @@ export const CreateImage = () => {
                         </table>
                         :
                         <div>
-                            <span className="text-white">D000</span>
+                            <span className="text-white">No products found.</span>
                         </div>
                     }
                 </div>

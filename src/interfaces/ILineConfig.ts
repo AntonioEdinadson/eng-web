@@ -33,3 +33,15 @@ export interface ISystemOperational {
     version: string;
     status: boolean;
 }
+
+export interface IAssociateImage {
+    id?: number;
+    idImage: number;
+    modelo: string;
+    systemVersion: string;
+    directory: string;
+    modeloImageStatus: {
+        id: number;
+        fileName: string;
+    }
+}
