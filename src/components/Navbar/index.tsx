@@ -94,12 +94,6 @@ const menu = [
                 name: "Line Setup",
                 path: "/lineconfig/setup",
                 itens: []
-            },
-            {
-                icon: <CogIcon className='w-4' />,
-                name: "Config",
-                path: "/lineconfig/setup",
-                itens: []
             }
         ]
     },

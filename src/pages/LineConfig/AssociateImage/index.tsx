@@ -1,10 +1,12 @@
 import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
+
 import { Alert } from "../../../components/Alert";
 import { ModalDelete } from "../../../components/Modal/Delete";
 import { ModalUpInsertImage } from "../../../components/Modal/UpInsertModelImage";
 import { useModelImage } from "../../../hooks/useAPI";
+
 import { IAssociateImage } from "../../../interfaces/ILineConfig";
 import { INotify } from "../../../interfaces/INotify";
 

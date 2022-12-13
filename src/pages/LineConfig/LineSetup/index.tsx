@@ -63,10 +63,7 @@ export const LineConfig = () => {
     };
 
     const updateLineSetup = async (e: ILineSetup) => {
-        try {
-
-            console.log(e);
-
+        try {            
 
             const request = await useLineSetup.UpdateLineSetup(e);
 
@@ -116,7 +113,6 @@ export const LineConfig = () => {
     };
 
     const onSubmit = async (e: any) => {
-
         if (!lineConfig?.id) {
             createLineSetup(e);
             return;
@@ -175,8 +171,8 @@ export const LineConfig = () => {
                                         <td className="py-4">{key?.id}</td>
                                         <td className="py-4">{key.linha}</td>
                                         <td className="py-4">{key.IPServer}</td>
-                                        <td className="py-4">{key.modelo}</td>
-                                        <td className="py-4">{key.systemVersion}</td>
+                                        <td className="py-4">{key.modelo ? key.modelo : "N/A"}</td>
+                                        <td className="py-4">{key.systemVersion? key.systemVersion : "N/A"}</td>
                                         <td className="py-4">
                                             {key.status
                                                 ?

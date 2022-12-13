@@ -1,9 +1,11 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { ILineSetup } from "../../../interfaces/ILineConfig";
+import { ILineSetup, ISelect } from "../../../interfaces/ILineConfig";
 import { useEffect, useState } from "react";
 import { useModelImage } from "../../../hooks/useAPI";
 import { IModelImage } from "../../../interfaces/IModelImage";
+import Select from 'react-select';
+import { ErrorMessage } from "@hookform/error-message";
 
 interface UpInsertComponentLineSetup {
     isOpen: () => void;
@@ -11,13 +13,43 @@ interface UpInsertComponentLineSetup {
     lineSetup: ILineSetup | null;
 }
 
+const customStylesSelect = {
+    control: (base: any) => ({
+        ...base,
+        backgroundColor: "#18181B",
+        border: 0,
+    }),
+
+    placeholder: (provided: any) => ({
+        ...provided,
+        fontWeight: '500',
+    }),
+
+    singleValue: (provided: any) => ({
+        ...provided,
+        color: '#CCC',
+        fontWeight: '500',
+    }),
+
+    option: (provided: any, state: any) => ({
+        ...provided,
+        borderBottom: '1px solid #CCC',
+        fontWeight: '500',
+        color: state.isSelected ? 'white' : '#757575',
+        padding: 5,
+    }),
+}
+
 export const ModalUpInsertLineSetup = ({ isOpen, execute, lineSetup }: UpInsertComponentLineSetup) => {
 
-    const { register, handleSubmit, reset } = useForm<ILineSetup>();
-    const [listModels, setListModel] = useState<IModelImage[]>();
+    const { register, handleSubmit, control, formState: { errors } } = useForm<ILineSetup>();
+
+    const [listModels, setListModel] = useState<ISelect[]>([]);
+    const [status, setStatus] = useState<ISelect[]>([]);
 
     useEffect(() => {
         getListModels();
+        setStatus([{ label: "ENABLE", value: 1 }, { label: "DISABLE", value: 0 }]);
     }, []);
 
     const getListModels = async () => {
@@ -25,7 +57,17 @@ export const ModalUpInsertLineSetup = ({ isOpen, execute, lineSetup }: UpInsertC
         try {
 
             const listModels = await useModelImage.GetAllModelImage();
-            setListModel(listModels.modelImage);
+
+            const newData = listModels.modelImage.map((list: ILineSetup) => {
+
+                return {
+                    label: list.modelo,
+                    value: list.id
+                }
+            });
+
+
+            setListModel(newData);
 
         } catch (error) {
             console.log(error);
@@ -36,7 +78,7 @@ export const ModalUpInsertLineSetup = ({ isOpen, execute, lineSetup }: UpInsertC
         <div className="">
             <div className="fixed bg-black bg-opacity-50 inset-0"></div>
             <div className="fixed inset-0 w-full flex justify-center items-center" id="modalDel">
-                <div className="relative w-[30%] bg-zinc-800 rounded-lg p-[1rem] text-center flex flex-col gap-4">
+                <div className="relative w-[30%] bg-zinc-800 rounded-lg p-[1rem] flex flex-col gap-4">
                     <div className="text-[#bebebe] mt-[2rem]">
                         <span className="block text-[1.2rem] font-medium">{lineSetup ? "Edit LineSetup" : "Create LineSetup"}</span>
                         <span className="block text-[1rem]">Remembering that this action is irreversible</span>
@@ -49,58 +91,100 @@ export const ModalUpInsertLineSetup = ({ isOpen, execute, lineSetup }: UpInsertC
                                     <input type="text" {...register('id')} defaultValue={lineSetup?.id} />
                                 </div>
 
-                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
-                                    <input type="text"
-                                        className="w-full p-1 outline-none bg-transparent"
-                                        {...register('linha', { required: !lineSetup?.linha ? true : false })}
-                                        defaultValue={lineSetup?.linha}
-                                        placeholder={`${lineSetup?.linha ? "" : "Line"}`} />
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">Line</span>
+                                    <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                        <input type="text"
+                                            disabled={lineSetup?.linha ? true : false}
+                                            className="w-full p-[.45rem] outline-none bg-transparent"
+                                            {...register('linha', { required: !lineSetup?.linha ? true : false })}
+                                            defaultValue={lineSetup?.linha}
+                                            placeholder={`${lineSetup?.linha ? "" : "Line"}`} />
+                                    </div>
                                 </div>
 
-                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
-                                    <input type="text"
-                                        className="w-full p-1 outline-none bg-transparent"
-                                        {...register('IPServer', { required: !lineSetup?.IPServer ? true : false })}
-                                        defaultValue={lineSetup?.IPServer}
-                                        placeholder={`${lineSetup?.IPServer ? "" : "IPServer"}`} />
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">IPServer</span>
+                                    <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
+                                        <input type="text"
+                                            disabled={lineSetup?.IPServer ? true : false}
+                                            className="w-full p-[.45rem] outline-none bg-transparent"
+                                            {...register('IPServer', { required: !lineSetup?.IPServer ? true : false })}
+                                            defaultValue={lineSetup?.IPServer}
+                                            placeholder={`${lineSetup?.IPServer ? "" : "IPServer"}`} />
+                                    </div>
                                 </div>
 
-                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
-                                    <select {...register("modelo")} defaultValue={`${lineSetup?.modelo}`} className="w-full py-1 outline-none bg-transparent ">
-                                        {listModels && listModels.length > 0
-                                            ?
-                                            <>
-                                                <option value="">Select Model</option>
-                                                {listModels.map((list: IModelImage, index: number) => (
-                                                    <option
-                                                        value={list.id}
-                                                        key={index}
-                                                        selected={lineSetup?.modelo == list.modelo ? true : false}>
-                                                        {`${list.modelo} ${list.systemVersion}`}
-                                                    </option>
-                                                ))}
-                                            </>
-                                            :
-                                            <option value="">NOK</option>
-                                        }
-                                    </select>
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">Model</span>
+                                    <Controller
+                                        name="modelo"
+                                        control={control}
+                                        rules={lineSetup?.modelo ? {} : { required: "Modelo is required." }}
+                                        render={({ field: { value, onChange } }) => (
+                                            <Select
+                                                styles={customStylesSelect}
+                                                options={listModels}
+                                                value={listModels.find((e: any) => e.value == value)}
+                                                defaultValue={lineSetup?.modelo
+                                                    ?
+                                                    {
+                                                        label: lineSetup.modelo,
+                                                        value: 0
+                                                    }
+                                                    :
+                                                    {
+                                                        label: 'Select',
+                                                        value: 0
+                                                    }
+                                                }
+                                                onChange={(e: any) => onChange(e.value)}
+                                            />
+                                        )}
+                                    />
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="modelo"
+                                        render={({ message }) => <p className="text-red-400 text-[.8rem] py-1">{message}</p>}
+                                    />
                                 </div>
 
-                                <div className="w-full bg-zinc-900  rounded text-[#bebebe] px-2">
-                                    <select {...register("status")} defaultValue={`${lineSetup?.status}`} className="w-full py-1 outline-none bg-transparent ">
-                                        <option
-                                            value="1"
-                                            selected={lineSetup?.status ? true : false}>
-                                            ENABLE
-                                        </option>
-                                        <option
-                                            value="0"
-                                            selected={lineSetup?.status ? false : true}>
-                                            DISABLE
-                                        </option>
-                                    </select>
+                                <div>
+                                    <span className="block text-zinc-500 pb-1">Status</span>
+                                    <Controller
+                                        name="status"
+                                        control={control}
+                                        rules={lineSetup?.status != undefined ? {} : { required: "Status is required." }}
+                                        render={({ field: { value, onChange } }) => (
+                                            <Select
+                                                styles={customStylesSelect}
+                                                options={status}
+                                                value={listModels.find((e: any) => e.value == value)}
+                                                defaultValue={lineSetup?.status
+                                                    ?
+                                                    {
+                                                        label: lineSetup ? "ENABLE" : "DISABLE",
+                                                        value: 0
+                                                    }
+                                                    :
+                                                    {
+                                                        label: 'DISABLE',
+                                                        value: 0
+                                                    }
+                                                }
+                                                onChange={(e: any) => onChange(e.value)}
+                                            />
+                                        )}
+                                    />
+                                    <ErrorMessage
+                                        errors={errors}
+                                        name="status"
+                                        render={({ message }) => <p className="text-red-400 text-[.8rem] py-1">{message}</p>}
+                                    />
                                 </div>
+
                             </div>
+
                             <div className="w-full flex justify-end items-center gap-2 text-[#bebebe] mt-6">
                                 {lineSetup
                                     ?

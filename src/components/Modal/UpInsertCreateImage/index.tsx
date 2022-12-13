@@ -4,7 +4,6 @@ import { ErrorMessage } from '@hookform/error-message';
 import { XMarkIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
 import { IImageCreate, ISelect, ISystemOperational } from "../../../interfaces/ILineConfig";
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import Select from 'react-select';
 
 import { useModelSystemOperational } from "../../../hooks/useAPI";
@@ -177,11 +176,11 @@ export const ModalUpInsertCreateImage = ({ isOpen, execute, image }: UpInsertCom
                                                 styles={customStylesSelect}
                                                 options={status}
                                                 value={status.find((e: any) => e.value == value)}
-                                                defaultValue={image?.recovery
+                                                defaultValue={image?.status
                                                     ?
                                                     {
                                                         label: image.status ? 'ENABLE' : 'DISABLE',
-                                                        value: image.status ? 1 : 0,
+                                                        value: 0,
                                                     }
                                                     :
                                                     {
