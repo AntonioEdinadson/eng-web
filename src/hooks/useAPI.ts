@@ -1,5 +1,10 @@
+import {
+    IAssociateImage,
+    IImageCreate,
+    ILineSetup
+} from '../interfaces/ILineConfig';
+
 import axios from 'axios';
-import { IAssociateImage, IImageCreate, ILineSetup } from '../interfaces/ILineConfig';
 
 import {
     IModelDPK,
@@ -14,6 +19,11 @@ import {
 
 const http = axios.create({
     baseURL: 'http://localhost:3000/espec/api',
+    headers: { "Content-Type": "application/json" },
+});
+
+const http2 = axios.create({
+    baseURL: 'http://localhost:3000',
     headers: { "Content-Type": "application/json" },
 });
 
@@ -323,7 +333,19 @@ const useModelSystemOperational = {
     },
 };
 
+const useAuthentication = {
+    Login: async (userName: string, password: string) => {
+        const request = await http2.post('/sign', { userName, password });
+        return request.data;
+    },
+    Validate: async (token: string) => {
+        const res = await http2.post('/validate', { token });
+        return res.data;
+    }
+};
+
 export {
+    useAuthentication,
     useSmbios,
     useSystemInfo,
     useWindowsVersion,
@@ -337,3 +359,38 @@ export {
     useModelImageStatus,
     useModelSystemOperational
 };
+
+
+http2.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('auth');
+
+        if (!token) {
+            return config;
+        }
+
+        config.headers!.Authorization = `Bearer ${token}`;
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+http.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('auth');
+
+        if (!token) {
+            return config;
+        }
+
+        config.headers!.Authorization = `Bearer ${token}`;
+        return config;
+    },
+
+    (error) => {
+        return Promise.reject(error);
+    }
+);

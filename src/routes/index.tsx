@@ -11,6 +11,9 @@ import { Resolution } from '../pages/Product/Resolution';
 import { LineConfig } from '../pages/LineConfig/LineSetup';
 import { CreateImage } from '../pages/LineConfig/CreateImage';
 import { AssociateImage } from '../pages/LineConfig/AssociateImage';
+import { Login } from '../pages/Login';
+
+import { RequireAuth } from '../context/Auth/RequireAuth';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -18,55 +21,59 @@ export const RoutesList = () => {
         // HOME
         {
             path: '/',
-            element: <Home />
+            element: <RequireAuth><Home /></RequireAuth>
         },
         {
             path: '/home',
-            element: <Home />
+            element: <RequireAuth><Home /></RequireAuth>
         },
 
         // PRODUTC
         {
-            path: '/product/smbios',
-            element: <SMBios />
+            path: '/product/smbios',            
+            element: <RequireAuth><SMBios /></RequireAuth>
         },
         {
-            path: '/product/windowsversion',
-            element: <WindowsVersion />
+            path: '/product/windowsversion',            
+            element: <RequireAuth><WindowsVersion /></RequireAuth>
         },
         {
             path: '/product/secureboot',
-            element: <SecureBoot />
+            element: <RequireAuth><SecureBoot /></RequireAuth>            
         },
         {
-            path: '/product/sdcard',
-            element: <SDCard />
+            path: '/product/sdcard',            
+            element: <RequireAuth><SDCard /></RequireAuth>
         },
         {
-            path: '/product/modeldpk',
-            element: <ModelDPK />
+            path: '/product/modeldpk',            
+            element: <RequireAuth><ModelDPK /></RequireAuth>
         },
         {
-            path: '/product/modeldpkconfig',
-            element: <ModelDPKConfig />
+            path: '/product/modeldpkconfig',            
+            element: <RequireAuth><ModelDPKConfig /></RequireAuth>
         },
         {
             path: '/product/modelresolution',
-            element: <Resolution />
+            element: <RequireAuth><Resolution /></RequireAuth>            
         },
 
         // LINE CONFIG        
         {
             path: '/lineconfig/setup',
-            element: <LineConfig />
+            element: <RequireAuth><LineConfig /></RequireAuth>                 
         },
         {
-            path: '/lineconfig/createimage',
-            element: <CreateImage />
+            path: '/lineconfig/createimage',            
+            element: <RequireAuth><CreateImage /></RequireAuth>     
         },
         {
             path: '/lineconfig/associateimage',
-            element: <AssociateImage />
+            element: <RequireAuth><AssociateImage /></RequireAuth>                 
+        },
+        {
+            path: '/login',
+            element: <Login />
         },
 
         // CONFIG
