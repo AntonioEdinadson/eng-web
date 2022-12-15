@@ -13,24 +13,30 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     }, []);
 
     const validateToken = async () => {
-       
-        const storagetoken = localStorage.getItem('auth');    
+
+        const storagetoken = localStorage.getItem('auth');
 
         if (!storagetoken) {
-            console.log("storagetoken is empty");            
-            setUser(null);
-            return;
-        }        
-
-        const request = await useAuthentication.Validate(storagetoken);
-
-        if (!request.user) {
-            console.log("user is empty");            
+            console.log("storagetoken is empty");
             setUser(null);
             return;
         }
 
-        setUser({ userName: request.userName });
+        const request = await useAuthentication.Validate(storagetoken);
+
+        if (!request.user) {
+            console.log("user is empty");
+            setUser(null);
+            return;
+        }
+
+        setUser({ 
+            userName: request.user, 
+            avatar: request.avatar,
+            email: request.email,
+            permissions: request.permissions
+        });
+
         return true;
 
     };
@@ -45,7 +51,8 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
         setToken(request.token);
         setUser({ userName: request.userName });
-        return true;        
+
+        return true;
     };
 
     const sigout = async () => {

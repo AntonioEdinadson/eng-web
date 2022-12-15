@@ -3,7 +3,7 @@ import { RoutesList } from './routes';
 const App = () => {
 
   return (
-    <div className="w-full h-screen">
+    <div id="main" className="w-full h-screen">
       <RoutesList></RoutesList>
     </div>
   )

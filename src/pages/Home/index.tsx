@@ -9,7 +9,7 @@ export const Home = () => {
     const [notify, setNotify] = useState<INotify>();
 
     return (
-        <>
+        <div>
             <Header />
             <div className='flex'>
                 <nav className='w-[250px]'>
@@ -26,9 +26,16 @@ export const Home = () => {
                                 <h2>This page is used to do all the DPK configuration part of the product.</h2>
                             </div>
                         </div>
+                        <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
+                            <div className="overflow-x-auto relative grid grid-cols-4 gap-4">
+                                <div className="">
+                                           
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </main>
             </div>
-        </>
+        </div>
     );
 };

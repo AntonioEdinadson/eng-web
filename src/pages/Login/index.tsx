@@ -1,4 +1,10 @@
-import { EyeIcon, EyeSlashIcon, ShieldCheckIcon, ShieldExclamationIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import {
+    EyeIcon,
+    EyeSlashIcon,
+    ShieldCheckIcon,
+    UserCircleIcon
+} from "@heroicons/react/24/solid";
+
 import { Link } from "react-router-dom";
 
 import { useContext, useState } from 'react';
@@ -34,7 +40,7 @@ export const Login = () => {
                 return;
             }
 
-            const isLogged = await auth.sign(event.userName, event.password);        
+            const isLogged = await auth.sign(event.userName, event.password);
 
             if (!isLogged) {
                 setError(true);
@@ -44,6 +50,7 @@ export const Login = () => {
             }
 
             navigate('/home');
+            window.location.reload();
 
         } catch (error) {
             setError(true);
@@ -61,12 +68,13 @@ export const Login = () => {
         }, 3500);
     }
 
-
     return (
         <div>
             <header>
                 <div className="w-full h-[3rem] flex items-center p-8">
-                    <img src={logo} alt="logo" className="w-[150px]" />
+                    <Link to={"/"}>
+                        <img src={logo} alt="logo" className="w-[180px]" />
+                    </Link>
                 </div>
             </header>
             <main className="w-full h-[calc(100vh-4rem)] relative flex items-center justify-center">
