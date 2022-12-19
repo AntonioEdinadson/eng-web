@@ -18,12 +18,12 @@ import {
 } from '../interfaces/IProduct';
 
 const http = axios.create({
-    baseURL: 'http://localhost:3000/espec/api',
+    baseURL: 'http://192.168.149.247/multisoftware/espec/api',
     headers: { "Content-Type": "application/json" },
 });
 
 const http2 = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://192.168.149.247/multisoftware',
     headers: { "Content-Type": "application/json" },
 });
 
