@@ -23,7 +23,7 @@ const http = axios.create({
 });
 
 const http2 = axios.create({
-    baseURL: 'http://192.168.149.247',
+    baseURL: 'http://192.168.149.247/multisoftware',
     headers: { "Content-Type": "application/json" },
 });
 
