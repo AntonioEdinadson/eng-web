@@ -14,53 +14,68 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
     const validateToken = async () => {
 
-        const storagetoken = localStorage.getItem('auth');
+        try {
 
-        if (!storagetoken) {
-            console.log("storagetoken is empty");
-            setUser(null);
-            return;
-        }
+            const storagetoken = localStorage.getItem('token');
 
-        const request = await useAuthentication.Validate(storagetoken);
+            if (!storagetoken) {
+                console.log("storagetoken is empty");
+                setUser(null);
+                return;
+            }
 
-        if (!request.user) {
-            console.log("user is empty");
-            setUser(null);
-            return;
-        }
+            const request = await useAuthentication.Validate();
 
-        setUser({ 
-            userName: request.user, 
-            avatar: request.avatar,
-            email: request.email,
-            permissions: request.permissions
-        });
+            if (!request.user) {
+                console.log("user is empty");
+                setUser(null);
+                return;
+            }
 
-        return true;
+            setUser({
+                id: request.user.id,
+                name: request.user.name,
+                email: request.user.email,
+                avatar: request.user.avatar,
+                permissions: request.user.permissions
+            });
 
+            return true;
+
+        } catch (error) {            
+            console.log(error);
+        } finally { }
     };
 
-    const sign = async (userName: string, password: string) => {
+    const sign = async (email: string, password: string) => {
 
-        const request = await useAuthentication.Login(userName, password);
+        const request = await useAuthentication.Login(email, password);        
 
-        if (!request.token) {
-            return false;
-        }
+        if (!request.user) {
+            console.log("fpekpefgpk");
+            sigout();
+            return false
+        };
 
-        setToken(request.token);
-        setUser({ userName: request.userName });
+        localStorage.setItem('user-config', JSON.stringify({
+            id: request.user.id,
+            name: request.user.name,
+            email: request.user.email,
+            avatar: request.user.avatar,
+            permissions: request.user.permissions
+        }));
 
+        localStorage.setItem('token', request.user.token);
+
+        setUser(request.user);
         return true;
     };
 
     const sigout = async () => {
         setUser(null);
-        setToken('');
+        localStorage.setItem('token', '');
+        localStorage.setItem('user-config', '');
     };
-
-    const setToken = async (token: string) => localStorage.setItem('auth', token);
 
     return (
         <AuthContext.Provider value={{ user, sign, sigout }}>

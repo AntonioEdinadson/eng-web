@@ -1,61 +1,78 @@
-import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { useEffect, useState } from "react";
+import {
+    PencilSquareIcon,
+    PlusCircleIcon,
+    TrashIcon,
+} from "@heroicons/react/24/solid";
+
 import { RiSearchLine } from "react-icons/ri";
-import { Alert } from "../../../components/Alert";
-import { Header } from "../../../components/Header";
-import { ModalDelete } from "../../../components/Modal/Delete";
-import { ModalUpInsertModelDPK } from "../../../components/Modal/UpInsertModelDPK";
-import { Navbar } from "../../../components/Navbar";
-import { useModelDPK, useSDCard } from "../../../hooks/useAPI";
+import { useSmbios, useSystemInfo } from "../../../hooks/useAPI";
+import { useEffect, useState } from "react";
+
+import { ISMBios } from "../../../interfaces/IProduct";
 import { INotify } from "../../../interfaces/INotify";
-import { IModelDPK, ISDCard } from "../../../interfaces/IProduct";
+import { Alert } from "../../../components/Alert";
+import { ModalDelete } from "../../../components/Modal/Delete";
+import { ModalUpInsertModal } from "../../../components/Modal/UpInsertSmbios";
+import { Header } from "../../../components/Header";
+import { Navbar } from "../../../components/Navbar";
 
-export const ModelDPK = () => {
+export const SystemInfo = () => {
 
-    const [modeldpkData, setModeldpkData] = useState<IModelDPK[] | null>(null);
-    const [modeldpk, setModeldpk] = useState<IModelDPK | null>(null);
-
-    const [notify, setNotify] = useState<INotify>();
+    const [smbiosData, setDataSmbios] = useState<ISMBios[] | null>(null);
+    const [smbios, setSmbios] = useState<ISMBios | null>(null);
 
     const [modalDelete, setModalDelete] = useState<Boolean>();
     const [modalUpInsert, setModalUpInsert] = useState<Boolean>();
 
+    const [notify, setNotify] = useState<INotify>();
+
     useEffect(() => {
-        getModeldpk();
+        getSmbios();
     }, []);
 
-    const getModeldpk = async () => {
+    const getSmbios = async () => {
         try {
-            const data = await useModelDPK.GetAllSModelDPK();                    
-            setModeldpkData(data.key);
+            const response = await useSystemInfo.GetAllSystemInfo();
+            setDataSmbios(response.smbios);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const searchModelDPK = async (search: string) => {
+    const searchSmbios = async (search: string) => {
         try {
-            const request = await useModelDPK.GetModelDPK(search);
-            setModeldpkData(request.key);
+            const request = await useSystemInfo.GetSystemInfo(search);
+            setDataSmbios(request.smbios);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const createModelDPK = async (e: IModelDPK) => {
+    const onSubmit = async (e: any) => {
+        if (!smbios?.id) {
+            createSmbios(e);
+            return;
+        }
+        updateSmbios(e);
+    };
+
+    const createSmbios = async (e: ISMBios) => {
         try {
 
-            const request = await useModelDPK.CreateModelDPK(e);
+            console.log(e);
 
-            if (!request.key.id) {
+
+            const request = await useSmbios.CreateSMbios(e);
+
+            if (!request.smbios.id) {
                 SendNotification({ message: 'There was an error creating!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: 'ModelDPK was successfully creating!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'SMBIOS was successfully creating!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getModeldpk();
+            getSmbios();
 
         } catch (error) {
             console.log(error);
@@ -64,20 +81,20 @@ export const ModelDPK = () => {
         }
     };
 
-    const updateModelDPK = async (e: IModelDPK) => {
+    const updateSmbios = async (e: ISMBios) => {
         try {
 
-            const request = await useModelDPK.UpdateModelDPK(e);
+            const request = await useSmbios.UpdateSmbios(e);
 
-            if (!request.key.id) {
+            if (!request.smbios.id) {
                 SendNotification({ message: 'There was an error update!', type: 'ERROR', status: true });
                 setModalUpInsert(false);
                 return;
             }
 
-            SendNotification({ message: ' ModelDPK successfully update!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'SMBIOS was successfully update!', type: 'SUCCESS', status: true });
             setModalUpInsert(false);
-            getModeldpk();
+            getSmbios();
 
         } catch (error) {
             console.log(error);
@@ -86,41 +103,32 @@ export const ModelDPK = () => {
         }
     };
 
-    const deleteModelDPK = async () => {
+    const deleteSmbios = async () => {
         try {
 
-            if (!modeldpk?.id) {
+            if (!smbios?.id) {
                 SendNotification({ message: 'ID not found', type: 'ERROR', status: true });
                 setModalDelete(false);
                 return;
             }
 
-            const request = await useModelDPK.DeleteModelDPK(modeldpk.id);
+            const request = await useSmbios.DeleteSmbios(smbios.id);
 
-            if (!request.key.id) {
+            if (!request.smbios.id) {
                 SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
                 setModalDelete(false);
                 return;
             }
 
-            SendNotification({ message: 'ModelDPK was successfully deleted!', type: 'SUCCESS', status: true });
+            SendNotification({ message: 'SMBIOS was successfully deleted!', type: 'SUCCESS', status: true });
             setModalDelete(false);
-            getModeldpk();
+            getSmbios();
 
         } catch (error) {
             console.log(error);
             SendNotification({ message: 'There was an error deleting!', type: 'ERROR', status: true });
             setModalDelete(false);
         }
-    };
-
-    const onSubmit = async (e: any) => {
-
-        if (!modeldpk?.id) {
-            createModelDPK(e);
-            return;
-        }
-        updateModelDPK(e);
     };
 
     const SendNotification = async (notify: INotify) => {
@@ -142,45 +150,55 @@ export const ModelDPK = () => {
                         </div>
                         <div className="w-full h-5rem flex justify-between items-center">
                             <div className="text-[#bebebe]">
-                                <h1 className="font-medium text-[1.5rem]">ModelDPK</h1>
-                                <h2>This page is used to do all the DPK configuration part of the product.</h2>
+                                <h1 className="font-medium text-[1.5rem]">SystemInfo Product</h1>
+                                <h2>This page is used to do all the SMBios configuration part of the product.</h2>
                             </div>
                             <div className="flex gap-6 items-center">
                                 <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">
                                     <RiSearchLine className="text-[#bebebe]" />
                                     <input
-                                        onChange={(e) => searchModelDPK(e.target.value)}
+                                        onChange={(e) => searchSmbios(e.target.value)}
                                         type="text"
                                         className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                                         placeholder="pesquisar" />
                                 </div>
-                                <PlusCircleIcon
-                                    className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer"
-                                    onClick={() => { setModeldpk(null); setModalUpInsert(!modalUpInsert) }} />
+                                <PlusCircleIcon className="w-10 text-[#3B82F6] hover:scale-110 cursor-pointer" onClick={() => { setSmbios(null); setModalUpInsert(!modalUpInsert) }} />
                             </div>
                         </div>
                         <section className="relative w-full h-[calc(90%-5rem)] mt-[2rem] py-2 overflow-auto">
                             <div className="overflow-x-auto relative">
-                                {modeldpkData && modeldpkData.length > 0
+                                {smbiosData && smbiosData.length > 0
                                     ?
                                     <table className="min-w-[1366px] w-full text-sm text-left text-[#bebebe]">
                                         <thead className="text-xs text-[#3B82F6] uppercase ">
                                             <tr className="">
                                                 <th className="py-3">#</th>
-                                                <th className="py-3">Model</th>
-                                                <th className="py-3">PartNumber</th>
+                                                <th className="py-3">SProduct</th>
+                                                <th className="py-3">SFamily</th>
+                                                <th className="py-3">SVersion</th>
+                                                <th className="py-3">SSkuNumber</th>
+                                                <th className="py-3">BProduct</th>
+                                                <th className="py-3">SManufacture</th>
+                                                <th className="py-3">BManufacture</th>
+                                                <th className="py-3">CManufacture</th>
                                                 <th className="py-3">Status</th>
                                                 <th className="py-3">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody className="">
-                                            {modeldpkData.map((key: IModelDPK, index: number) => (
+                                            {smbiosData.map((smbios: ISMBios, index: number) => (
                                                 <tr className="" key={index}>
-                                                    <td className="py-4">{key?.id}</td>
-                                                    <td className="py-4">{key.modelo}</td>
-                                                    <td className="py-4">{key.partnumber}</td>
+                                                    <td className="py-4">{smbios?.id}</td>
+                                                    <td className="py-4">{smbios.systemProduct}</td>
+                                                    <td className="py-4">{smbios.systemFamily}</td>
+                                                    <td className="py-4">{smbios.systemVersion}</td>
+                                                    <td className="py-4">{smbios.systemSkuNumber}</td>
+                                                    <td className="py-4">{smbios.baseboardProduct}</td>
+                                                    <td className="py-4">{smbios.systemManufacture}</td>
+                                                    <td className="py-4">{smbios.baseboardManufacture}</td>
+                                                    <td className="py-4">{smbios.chassisManufacture}</td>
                                                     <td className="py-4">
-                                                        {key.status
+                                                        {smbios.status
                                                             ?
                                                             <span className="w-14 flex justify-center border border-[#00e170] text-[#00e170] py-[.1rem] rounded-lg text-[.7rem] font-bold">ENABLE</span>
                                                             :
@@ -188,12 +206,8 @@ export const ModelDPK = () => {
                                                         }
                                                     </td>
                                                     <td className="w-full py-4 px-1 flex justify-between">
-                                                        <PencilSquareIcon
-                                                            className="w-5 hover:scale-110 cursor-pointer"
-                                                            onClick={() => { setModeldpk(key); setModalUpInsert(!modalUpInsert) }} />
-                                                        <TrashIcon
-                                                            className="w-5 hover:scale-110 cursor-pointer text-[#db021f]"
-                                                            onClick={() => { setModeldpk(key); setModalDelete(!modalDelete) }} />
+                                                        <PencilSquareIcon onClick={() => { setSmbios(smbios); setModalUpInsert(true) }} className="w-5 hover:scale-110 cursor-pointer" />
+                                                        <TrashIcon onClick={() => { setSmbios(smbios), setModalDelete(true) }} className="w-5 hover:scale-110 cursor-pointer text-[#db021f]" />
                                                     </td>
                                                 </tr>
                                             ))}
@@ -201,7 +215,7 @@ export const ModelDPK = () => {
                                     </table>
                                     :
                                     <div>
-                                        <span className="text-white">D000</span>
+                                        <span className="text-white">000</span>
                                     </div>
                                 }
                             </div>
@@ -209,15 +223,15 @@ export const ModelDPK = () => {
                         {modalDelete &&
                             <ModalDelete
                                 isOpen={() => setModalDelete(!modalDelete)}
-                                execute={deleteModelDPK}
-                                model={modeldpk}
-                                title={"ModelDPK"} />
+                                execute={deleteSmbios}
+                                model={smbios}
+                                title="SMbios" />
                         }
                         {modalUpInsert &&
-                            <ModalUpInsertModelDPK
+                            <ModalUpInsertModal
                                 isOpen={() => setModalUpInsert(!modalUpInsert)}
                                 execute={(e) => onSubmit(e)}
-                                dpk={modeldpk} />
+                                smbios={smbios} />
                         }
                     </div>
                 </main>

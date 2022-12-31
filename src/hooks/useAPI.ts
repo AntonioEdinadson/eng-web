@@ -18,12 +18,7 @@ import {
 } from '../interfaces/IProduct';
 
 const http = axios.create({
-    baseURL: 'http://192.168.149.247/multisoftware/espec/api',
-    headers: { "Content-Type": "application/json" },
-});
-
-const http2 = axios.create({
-    baseURL: 'http://192.168.149.247/multisoftware',
+    baseURL: 'http://localhost:3001/api',
     headers: { "Content-Type": "application/json" },
 });
 
@@ -72,7 +67,7 @@ const useSystemInfo = {
         return request.data;
     },
 
-    UpdateSystemInfo: async (system?: ISystemInfo) => {
+    UpdateSystemInfo: async (system?: ISystemInfo) => {        
         const request = await http.put(`systeminfo/${system?.id}`, system);
         return request.data;
     },
@@ -334,12 +329,12 @@ const useModelSystemOperational = {
 };
 
 const useAuthentication = {
-    Login: async (userName: string, password: string) => {
-        const request = await http2.post('/sign', { userName, password });
+    Login: async (email: string, password: string) => {
+        const request = await http.post('/sign', { email, password });
         return request.data;
     },
-    Validate: async (token: string) => {
-        const res = await http2.post('/validate', { token });
+    Validate: async () => {
+        const res = await http.post('/validate');
         return res.data;
     }
 };
@@ -360,32 +355,14 @@ export {
     useModelSystemOperational
 };
 
-
-http2.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('auth');
-
-        if (!token) {
-            return config;
-        }
-
-        config.headers!.Authorization = `Bearer ${token}`;
-        return config;
-    },
-
-    (error) => {
-        return Promise.reject(error);
-    }
-);
-
 http.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('auth');
+        const token = localStorage.getItem('token');
+        const userID = localStorage.getItem('user-config');
 
-        if (!token) {
-            return config;
-        }
+        if (!token || !userID) return config;
 
+        config.headers!.userid = JSON.parse(userID).id;
         config.headers!.Authorization = `Bearer ${token}`;
         return config;
     },

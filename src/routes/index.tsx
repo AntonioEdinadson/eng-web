@@ -14,6 +14,7 @@ import { AssociateImage } from '../pages/LineConfig/AssociateImage';
 import { Login } from '../pages/Login';
 
 import { RequireAuth } from '../context/Auth/RequireAuth';
+import { SystemInfo } from '../pages/Product/SystemInfo';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -30,46 +31,50 @@ export const RoutesList = () => {
 
         // PRODUTC
         {
-            path: '/product/smbios',            
+            path: '/product/smbios',
             element: <RequireAuth><SMBios /></RequireAuth>
         },
         {
-            path: '/product/windowsversion',            
+            path: '/product/systeminfo',
+            element: <RequireAuth><SystemInfo /></RequireAuth>
+        },
+        {
+            path: '/product/windowsversion',
             element: <RequireAuth><WindowsVersion /></RequireAuth>
         },
         {
             path: '/product/secureboot',
-            element: <RequireAuth><SecureBoot /></RequireAuth>            
+            element: <RequireAuth><SecureBoot /></RequireAuth>
         },
         {
-            path: '/product/sdcard',            
+            path: '/product/sdcard',
             element: <RequireAuth><SDCard /></RequireAuth>
         },
         {
-            path: '/product/modeldpk',            
+            path: '/product/modeldpk',
             element: <RequireAuth><ModelDPK /></RequireAuth>
         },
         {
-            path: '/product/modeldpkconfig',            
+            path: '/product/modeldpkconfig',
             element: <RequireAuth><ModelDPKConfig /></RequireAuth>
         },
         {
             path: '/product/modelresolution',
-            element: <RequireAuth><Resolution /></RequireAuth>            
+            element: <RequireAuth><Resolution /></RequireAuth>
         },
 
         // LINE CONFIG        
         {
             path: '/lineconfig/setup',
-            element: <RequireAuth><LineConfig /></RequireAuth>                 
+            element: <RequireAuth><LineConfig /></RequireAuth>
         },
         {
-            path: '/lineconfig/createimage',            
-            element: <RequireAuth><CreateImage /></RequireAuth>     
+            path: '/lineconfig/createimage',
+            element: <RequireAuth><CreateImage /></RequireAuth>
         },
         {
             path: '/lineconfig/associateimage',
-            element: <RequireAuth><AssociateImage /></RequireAuth>                 
+            element: <RequireAuth><AssociateImage /></RequireAuth>
         },
         {
             path: '/login',

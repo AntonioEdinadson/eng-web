@@ -31,21 +31,21 @@ export const Login = () => {
 
     const onSubmit = async (event: any) => {
         try {
-
+            
             setLoading(true);
 
-            if (!event.userName || !event.password) {
+            if (!event.email || !event.password) {
                 setError(true);
-                setMessage('Complete all the fields correctly');
+                setMessage('Complete all the fields correctly');                
                 return;
             }
 
-            const isLogged = await auth.sign(event.userName, event.password);
+            const isLogged = await auth.sign(event.email, event.password);
 
             if (!isLogged) {
                 setError(true);
-                SendNotification('Username or password incorrect');
-                setLoading(false);
+                SendNotification('email or password incorrect');
+                setLoading(false);                
                 return;
             }
 
@@ -53,6 +53,7 @@ export const Login = () => {
             window.location.reload();
 
         } catch (error) {
+            console.log({error});            
             setError(true);
             SendNotification("Error occurred while request");
             setLoading(false);
@@ -84,14 +85,14 @@ export const Login = () => {
                             <div className="w-full bg-[##141414] bg-[#27272A] rounded p-3 flex gap-4">
                                 <UserCircleIcon className="w-8" />
                                 <input
-                                    {...register("userName", { required: "UserName is required", })}
+                                    {...register("email", { required: "email is required", })}
                                     type="text"
                                     className="w-full bg-transparent text-zinc-300  outline-none placeholder-zinc-500"
-                                    placeholder="Your UserName" />
+                                    placeholder="Your email" />
                             </div>
                             <ErrorMessage
                                 errors={errors}
-                                name="userName"
+                                name="email"
                                 render={({ message }) => <p className="text-[.7rem] text-[#F21B3F]">{message}</p>}
                             />
 

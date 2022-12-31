@@ -1,8 +1,9 @@
 export interface IUser {
-    userName: string,
-    password?: string,
-    token?: string
-    avatar?: string
-    email?: string
-    permissions?: string[]
+    id?: number;
+    name: string;
+    password?: string;
+    token?: string;
+    avatar?: string;
+    email?: string;
+    permissions?: string[];
 }
