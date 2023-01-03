@@ -37,6 +37,16 @@ export const AssociateImage = () => {
         }
     };
 
+    const searchCreateImage = async (search: string) => {
+        try {
+            const request = await useModelImage.GetModelImage(search);
+            console.log(request);
+            setCreateImageData(request.modelImage);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const createAssociate = async (e: IAssociateImage) => {
         try {
 
@@ -143,7 +153,7 @@ export const AssociateImage = () => {
                                 <div className="bg-zinc-800 flex gap-2 items-center rounded-2xl px-2">
                                     <RiSearchLine className="text-[#bebebe]" />
                                     <input
-                                        onChange={(e) => ""}
+                                        onChange={(e) => searchCreateImage(e.target.value)}
                                         type="text"
                                         className="w-[300px] bg-transparent outline-none px-1 py-[.3rem] rounded-2xl text-[#bebebe]"
                                         placeholder="pesquisar" />

@@ -18,7 +18,8 @@ import {
 } from '../interfaces/IProduct';
 
 const http = axios.create({
-    baseURL: 'http://localhost:3001/api',
+    // baseURL: 'http://localhost:3001/api',
+    baseURL: 'http://192.168.148.6/multi/api/',
     headers: { "Content-Type": "application/json" },
 });
 
@@ -67,7 +68,7 @@ const useSystemInfo = {
         return request.data;
     },
 
-    UpdateSystemInfo: async (system?: ISystemInfo) => {        
+    UpdateSystemInfo: async (system?: ISystemInfo) => {
         const request = await http.put(`systeminfo/${system?.id}`, system);
         return request.data;
     },
