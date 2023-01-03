@@ -15,6 +15,7 @@ import { Login } from '../pages/Login';
 
 import { RequireAuth } from '../context/Auth/RequireAuth';
 import { SystemInfo } from '../pages/Product/SystemInfo';
+import { Register } from '../pages/Register';
 
 export const RoutesList = () => {
     return useRoutes([
@@ -77,8 +78,13 @@ export const RoutesList = () => {
             element: <RequireAuth><AssociateImage /></RequireAuth>
         },
         {
-            path: '/login',
+            path: '/signin',
             element: <Login />
+        },
+
+        {
+            path: '/signup',
+            element: <Register />
         },
 
         // CONFIG

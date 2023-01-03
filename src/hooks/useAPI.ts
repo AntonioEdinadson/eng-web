@@ -337,6 +337,10 @@ const useAuthentication = {
     Validate: async () => {
         const res = await http.post('/validate');
         return res.data;
+    },
+    Create: async (name: string, email: string, password: string) => {
+        const res = await http.post('/user', { name, email, password });
+        return res.data;
     }
 };
 

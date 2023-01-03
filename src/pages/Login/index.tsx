@@ -31,12 +31,12 @@ export const Login = () => {
 
     const onSubmit = async (event: any) => {
         try {
-            
+
             setLoading(true);
 
             if (!event.email || !event.password) {
                 setError(true);
-                setMessage('Complete all the fields correctly');                
+                setMessage('Complete all the fields correctly');
                 return;
             }
 
@@ -45,7 +45,7 @@ export const Login = () => {
             if (!isLogged) {
                 setError(true);
                 SendNotification('email or password incorrect');
-                setLoading(false);                
+                setLoading(false);
                 return;
             }
 
@@ -53,7 +53,7 @@ export const Login = () => {
             window.location.reload();
 
         } catch (error) {
-            console.log({error});            
+            console.log({ error });
             setError(true);
             SendNotification("Error occurred while request");
             setLoading(false);
@@ -115,19 +115,19 @@ export const Login = () => {
                             <ErrorMessage
                                 errors={errors}
                                 name="password"
-                                render={({ message }) => <p className="text-[.7rem] text-[#F21B3F]">{message}</p>}
-                            />
-                            <span></span>
-                            <button
-                                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                LOGIN
-                            </button>
-                            <div className="text-center text-zinc-500 flex gap-1 justify-center">
+                                render={({ message }) => <p className="text-[.7rem] text-[#F21B3F]">{message}</p>} />
+
+                            <div className="text-zinc-500 flex gap-1 justify-end py-2 text-[.9rem]">
                                 <span>Forgot your password?</span>
                                 <Link to={""}>
                                     <span className="font-medium hover:text-zinc-400">Click Here</span>
                                 </Link>
                             </div>
+
+                            <button
+                                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                LOGIN
+                            </button>
                         </div>
 
                         {error &&
@@ -136,8 +136,13 @@ export const Login = () => {
                                 <p className="text-[.8rem]">{message}</p>
                             </div>
                         }
-
                     </form>
+                    <div className="text-zinc-500 flex gap-1 justify-center py-2 text-[1rem] mt-[2rem]">
+                        <span>Create my account</span>
+                        <Link to={"/signup"}>
+                            <span className="font-medium hover:text-zinc-400">Click Here</span>
+                        </Link>
+                    </div>
                 </div>
             </main>
         </div>

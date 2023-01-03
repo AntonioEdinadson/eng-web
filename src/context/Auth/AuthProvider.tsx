@@ -42,14 +42,14 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
 
             return true;
 
-        } catch (error) {            
+        } catch (error) {
             console.log(error);
         } finally { }
     };
 
     const sign = async (email: string, password: string) => {
 
-        const request = await useAuthentication.Login(email, password);        
+        const request = await useAuthentication.Login(email, password);
 
         if (!request.user) {
             console.log("fpekpefgpk");
@@ -71,6 +71,18 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         return true;
     };
 
+    const signup = async (name: string, email: string, password: string) => {
+
+        const request = await useAuthentication.Create(name, email, password);
+
+        if (!request.user) {
+            sigout();
+            return false
+        };
+
+        return true;
+    };
+
     const sigout = async () => {
         setUser(null);
         localStorage.setItem('token', '');
@@ -78,7 +90,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, sign, sigout }}>
+        <AuthContext.Provider value={{ user, sign, signup, sigout }}>
             {children}
         </AuthContext.Provider>
     );
