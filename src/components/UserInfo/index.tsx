@@ -18,7 +18,7 @@ export const UserInfo = ({ isOpen, status }: IUserInfoComponent) => {
 
     return (
         <div id='card' className='relative flex items-center gap-2' >
-            <span className='text-[#878787] text-[.9rem]'>{auth.user?.userName}</span>
+            <span className='text-[#878787] text-[.9rem]'>{auth.user?.name}</span>
             <div className="w-[35px] h-[35px] flex justify-center items-center bg-zinc-800 rounded-full overflow-hidden">
                 <img src={userIMG} alt="profile-image" className='cursor-pointer' />
             </div>
@@ -29,7 +29,7 @@ export const UserInfo = ({ isOpen, status }: IUserInfoComponent) => {
                         <img src={userIMG} alt="profile-image" className='w-full' />
                     </div>
                     <div className='flex flex-col'>
-                        <span className='font-medium text-zinc-400'>{auth.user?.userName}</span>
+                        <span className='font-medium text-zinc-400'>{auth.user?.name}</span>
                         <span className='text-zinc-400 text-[.8rem]'>{auth.user?.email}</span>
                     </div>
                 </div>
